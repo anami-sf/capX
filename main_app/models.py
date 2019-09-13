@@ -13,7 +13,7 @@ ORDER_COIN_CHOICES = [
 
 ]
 
-class Order:
+class Order(models.Model):
     amount= models.DecimalField(
         max_digits=30,
         decimal_places = 8
