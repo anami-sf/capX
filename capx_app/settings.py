@@ -77,7 +77,7 @@ WSGI_APPLICATION = 'capx_app.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'capX',
+        'NAME': 'capx',
     }
 }
 
