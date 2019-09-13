@@ -1,5 +1,6 @@
 from django.db import models
-from django.urls import reverse 
+from django.urls import reverse
+from django.contrib.auth.models import User 
 
 
 ORDER_TYPE_CHOICES = [
@@ -28,4 +29,5 @@ class Order(models.Model):
         choices = ORDER_COIN_CHOICES,
        
     )
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     # transaction = models.ForeignKey // 
