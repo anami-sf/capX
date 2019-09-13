@@ -22,7 +22,7 @@ body {
     background-color:#323232;
   }
 
-  .navbar-default .navbar-brand {
+.navbar-default .navbar-brand {
     color: whitesmoke;
 }
 .navbar-default .navbar-nav>li>a {
