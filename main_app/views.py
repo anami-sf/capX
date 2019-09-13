@@ -1,4 +1,5 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
+from django.template import Context, Template
 from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
@@ -27,7 +28,7 @@ def signup(request):
             user = form.save()
         # This is how we log a user in via code
             login(request, user)
-            return redirect('index')
+            return redirect('home')
     else:
         error_message = 'Invalid sign up - try again'
     # A bad POST or a GET request, so render signup.html with an empty form
