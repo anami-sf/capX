@@ -14,11 +14,7 @@ body {
   }
 
   .navbar{
-    position: fixed;
-    left: 0;
-    top:0;
-    border:0px;
-    width: 100%;
+
     background-color:#323232;
   }
 
