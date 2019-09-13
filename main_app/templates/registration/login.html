@@ -1,13 +1,9 @@
-{% extends 'base.html'}
+{% extends 'base.html' %}
 {% block content %} 
-<!-- <form method="post" action="{% url 'login' %}">
+<form method="post" action="{% url 'login' %}">
     {% csrf_token %}
     {{ form.as_p }}
     <input type="submit" class="btn" value="login">
     <input type="hidden" name="next" value="{{ next }}">
-     Django automatically redirects a user that 
-        tries to access a protected route back to that 
-        route after they log in
-</form> --> 
-
+</form>
 {% endblock %}
