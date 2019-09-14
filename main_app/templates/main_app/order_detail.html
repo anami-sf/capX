@@ -8,7 +8,10 @@ Detail PAGE
 <p>Coin: {{order.coin_type}}</p>
 <p>Amount: ${{order.amount}}</p>
 <p>User: {{order.user}}</p>
+<p>Created At: {{order.created_at}}</p>
+<p>Updated At: {{order.updated_at}}</p>
 <a href="{% url 'order_detail' order.id%}">Fill Order</a>
+
 
 <div>
         <a href="{% url 'order_update' order.id%}" >Edit</a>
