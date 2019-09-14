@@ -14,15 +14,9 @@ def home(request):
 
 class OrderList(ListView):
     model = Order
-    fields = ['order_type', 'amount', 'coint_type', 'user']
-    success_url = '/orders/'
 
-
-# def order_index(request):
-#     return render (request,'orders/index.html')
-
-# def order_detail(request):
-#     return render (request,'orders/detail.html')
+class OrderDetail(DetailView):
+    model = Order
 
 def signup(request):
     error_message = ''

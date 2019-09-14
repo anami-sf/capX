@@ -32,4 +32,7 @@ class Order(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     # transaction = models.ForeignKey // 
 
+    def get_absolute_url(self):
+        return reverse('order_detail', kwargs={'order_id': self.id})
+
     
