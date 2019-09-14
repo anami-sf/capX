@@ -21,6 +21,14 @@ class OrderCreate(CreateView):
     model = Order
     fields = ['order_type', 'coin_type', 'amount']
 
+class OrderDelete(DeleteView):
+    model = Order
+    success_url = '/orders/'
+
+class OrderUpdate(UpdateView):
+    model = Order
+    fields = ['amount', 'order_type', 'coin_type']
+
     def form_valid(self, form):
         # Assign the logged in user (self.request.user)
         form.instance.user = self.request.user

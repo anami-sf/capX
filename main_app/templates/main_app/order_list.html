@@ -11,6 +11,11 @@ INDEX PAGE
     <p>User: {{order.user}}</p>
     <a href="{% url 'order_detail' order.id%}">Fill Order</a>
     <hr>
+    <div>
+            <a href="{% url 'order_update' order.id%}" >Edit</a>
+            <a href="{% url 'order_delete' order.id%}">Delete</a>
+    </div>
+
 {% endfor %}
 
 {% endblock %}
