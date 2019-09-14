@@ -25,9 +25,7 @@ body {
   color: whitesmoke;
 }
 
-  button{
-    color:black;
-    background-color:grey;
-  }
-
+  .navbar-default .navbar-nav>li>a:hover  {
   
+    background-color: white;
+  }
