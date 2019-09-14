@@ -19,14 +19,6 @@ class OrderDetail(DetailView):
 
 class OrderCreate(CreateView):
     model = Order
-    fields = ['order_type', 'coin_type', 'amount']
-
-class OrderDelete(DeleteView):
-    model = Order
-    success_url = '/orders/'
-
-class OrderUpdate(UpdateView):
-    model = Order
     fields = ['amount', 'order_type', 'coin_type']
 
     def form_valid(self, form):
@@ -35,6 +27,19 @@ class OrderUpdate(UpdateView):
         # Instance methods are invoked by prefacing the 
         #method name with 'super()'
         return super().form_valid(form)
+
+class OrderDelete(DeleteView):
+    model = Order
+    success_url = '/orders/'
+
+
+
+class OrderUpdate(UpdateView):
+    model = Order
+    fields = ['amount', 'order_type', 'coin_type']
+
+
+
 
 def signup(request):
     error_message = ''
