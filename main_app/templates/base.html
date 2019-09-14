@@ -26,6 +26,7 @@
                     <li><a href="#">Create Order</a></li>
                     <li><a href="{% url 'logout' %}"><span class="glyphicon glyphicon-log-in"></span> Log Out</a></li>
                   {% else %}
+                    <li><a href="{% url 'order_index' %}">Open Orders</a></li>
                     <li><a href="{% url 'signup' %}"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
                     <li><a href="{% url 'login' %}"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
                   {% endif %}

@@ -14,8 +14,8 @@ def home(request):
 def order_index(request):
     return render (request,'orders/index.html')
 
-def order_detail(request):
-    return render (request,'orders/detail.html')
+# def order_detail(request):
+#     return render (request,'orders/detail.html')
 
 def signup(request):
     error_message = ''
