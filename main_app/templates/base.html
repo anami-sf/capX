@@ -19,17 +19,16 @@
          <nav class="navbar navbar-default navbar-static-top" role="navigation">
             <div class="container-fluid">
               <div class="navbar-header">
-                <a class="navbar-brand" href="#">capX</a>
+                <a class="navbar-brand" href=" ">capX</a>
               </div>
-              <ul class="nav navbar-nav">
-                <li><a href="#">Home</a></li>
-                <li><a href="#">Page 1</a></li>
-                <li><a href="#">Page 2</a></li>
-                <li><a href="#">Page 3</a></li>
-              </ul>
               <ul class="nav navbar-nav navbar-right">
-                <li><a href="{% url 'signup' %}"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
-                <li><a href="{% url 'login' %}"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+                  {% if user.is_authenticated %}
+                    <li><a href="#">Create Order</a></li>
+                    <li><a href="{% url 'logout' %}"><span class="glyphicon glyphicon-log-in"></span> Log Out</a></li>
+                  {% else %}
+                    <li><a href="{% url 'signup' %}"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
+                    <li><a href="{% url 'login' %}"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+                  {% endif %}
               </ul>
             </div>
           </nav> 
