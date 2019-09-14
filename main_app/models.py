@@ -33,6 +33,6 @@ class Order(models.Model):
     # transaction = models.ForeignKey // 
 
     def get_absolute_url(self):
-        return reverse('order_detail', kwargs={'order_id': self.id})
+        return reverse('order_detail', kwargs={'pk': self.id})
 
     

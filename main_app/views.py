@@ -8,7 +8,6 @@ from django.contrib.auth.forms import UserCreationForm
 from .models import Order
 
 
-
 def home(request):
     return render (request,'home.html')
 
@@ -17,6 +16,17 @@ class OrderList(ListView):
 
 class OrderDetail(DetailView):
     model = Order
+
+class OrderCreate(CreateView):
+    model = Order
+    fields = ['order_type', 'coin_type', 'amount']
+
+    def form_valid(self, form):
+        # Assign the logged in user (self.request.user)
+        form.instance.user = self.request.user
+        # Instance methods are invoked by prefacing the 
+        #method name with 'super()'
+        return super().form_valid(form)
 
 def signup(request):
     error_message = ''
