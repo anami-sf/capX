@@ -5,14 +5,21 @@ from django.views.generic.detail import DetailView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.contrib.auth import login
 from django.contrib.auth.forms import UserCreationForm
+from .models import Order
 
 
 
 def home(request):
     return render (request,'home.html')
 
-def order_index(request):
-    return render (request,'orders/index.html')
+class OrderList(ListView):
+    model = Order
+    fields = ['order_type', 'amount', 'coint_type', 'user']
+    success_url = '/orders/'
+
+
+# def order_index(request):
+#     return render (request,'orders/index.html')
 
 # def order_detail(request):
 #     return render (request,'orders/detail.html')
@@ -35,5 +42,4 @@ def signup(request):
     form = UserCreationForm()
     context = {'form': form, 'error_message': error_message}
     return render(request, 'registration/signup.html', context)
-
 
