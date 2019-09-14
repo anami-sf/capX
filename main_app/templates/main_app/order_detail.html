@@ -2,7 +2,13 @@
 {% block content %} 
 
 Detail PAGE
+<hr>
 
+<p>Order Type: {{order.order_type}}</p>
+<p>Coin: {{order.coin_type}}</p>
+<p>Amount: ${{order.amount}}</p>
+<p>User: {{order.user}}</p>
+<a href="{% url 'order_detail' order.id%}">Fill Order</a>
 
 
 {% endblock %}
