@@ -32,6 +32,9 @@ class Order(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     # transaction = models.ForeignKey // 
 
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
     def get_absolute_url(self):
         return reverse('order_detail', kwargs={'pk': self.id})
 
