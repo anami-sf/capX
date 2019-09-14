@@ -1,0 +1,16 @@
+{% extends 'base.html'%}
+{% block content %} 
+
+INDEX PAGE
+<hr>
+
+{% for order in order_list %}
+    <p>Order Type: {{order.order_type}}</p>
+    <p>Coin: {{order.coin_type}}</p>
+    <p>Amount: ${{order.amount}}</p>
+    <p>User: {{order.user}}</p>
+    <button>Fill Order</button>
+    <hr>
+{% endfor %}
+
+{% endblock %}
