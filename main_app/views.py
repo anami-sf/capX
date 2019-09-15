@@ -19,14 +19,14 @@ def order_execute(request, pk):
     if order.order_type == "Bid":
         bid_order = order
         for first_order in orders:
-            if first_order.order_type == "Ask":
+            if first_order.order_type == "Ask" and first_order.coin_type == order.coin_type:
                 ask_order = first_order
                 break
        # if ask_order == 
     else:
         ask_order = order      
         for first_order in orders:
-            if first_order.order_type == "Bid":
+            if first_order.order_type == "Bid" and first_order.coin_type == order.coin_type:
                 bid_order = first_order
                 break
     if ask_order and bid_order:
