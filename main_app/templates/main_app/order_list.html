@@ -12,12 +12,16 @@ INDEX PAGE
     <p>Created At: {{order.created_at}}</p>
     <p>Updated At: {{order.updated_at}}</p>
     <a href="{% url 'order_detail' order.id%}">Fill Order</a>
-    <hr>
+    
+    {% if user.is_authenticated %}
     <div>
-            <a href="{% url 'order_update' order.id%}" >Edit</a>
-            <a href="{% url 'order_delete' order.id%}">Delete</a>
+        <a href="{% url 'order_update' order.id%}" >Edit</a>
+        <a href="{% url 'order_delete' order.id%}">Delete</a>
     </div>
-
+    {% else %}
+    <a href="../accounts/login/"><p> Please log in first to trade</p></a>
+    {% endif %}
+    <br>
 {% endfor %}
 
 {% endblock %}
