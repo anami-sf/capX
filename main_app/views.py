@@ -6,7 +6,7 @@ from django.views.generic.detail import DetailView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.contrib.auth import login
 from django.contrib.auth.forms import UserCreationForm
-from .models import Order
+from .models import Order, Transaction
 from django.contrib.auth.decorators import login_required
 # Import the mixin for class-based views
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -33,12 +33,15 @@ def order_execute(request, pk):
                 bid_order = first_order
                 break
     if ask_order and bid_order:
+        transaction = Transaction.objects.create_transaction(bid_order, ask_order)
+        print(transaction)
         # create_transaction(ask_order, bid_order)
         return render(
             request, 
             'transactions/transaction.html/', 
             {'ask_order': ask_order, 
-            'bid_order': bid_order}
+            'bid_order': bid_order,
+            'transaction': transaction}
         )
     else:
         return render(
@@ -77,10 +80,6 @@ class OrderDelete(LoginRequiredMixin, DeleteView):
 class OrderUpdate(LoginRequiredMixin, UpdateView):
     model = Order
     fields = ['amount', 'order_type', 'coin_type']
-
-
-
-
 
 
 def signup(request):
