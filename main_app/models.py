@@ -20,10 +20,19 @@ ORDER_STATUS_CHOICES = [
     ('Confirmed', 'Confirmed')
 ]
 
-
-
-
-
+class Transaction(models.Model):
+    # bid_id = models.OneToOneField(
+    #     Order,
+    #     on_delete=models.CASCADE,
+    #     primary_key = True
+    # )
+    # ask_id = models.OneToOneField(
+    #     Order,
+    #     on_delete=models.CASCADE,
+    #     primary_key = True
+    # )
+    bid = models.CharField(max_length=200)
+    ask = models.CharField(max_length=200)
 
 
 class Order(models.Model):
@@ -48,7 +57,7 @@ class Order(models.Model):
         default = 'Pending'
     )
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    transaction = models.ForeignKey(Transaction, on_delete=models.CASCADE)
+    transaction = models.ForeignKey(Transaction, on_delete=models.CASCADE, blank=True, null=True)
 
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -56,16 +65,3 @@ class Order(models.Model):
     def get_absolute_url(self):
         return reverse('order_detail', kwargs={'pk': self.id})
     
-class Transaction(models.Model):
-    # bid_id = models.OneToOneField(
-    #     Order,
-    #     on_delete=models.CASCADE,
-    #     primary_key = True
-    # )
-    # ask_id = models.OneToOneField(
-    #     Order,
-    #     on_delete=models.CASCADE,
-    #     primary_key = True
-    # )
-    bid = models.CharField(max_length=200)
-    ask = models.CharField(max_length=200)
