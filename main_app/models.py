@@ -48,7 +48,7 @@ class Order(models.Model):
         default = 'Pending'
     )
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    # transaction = models.ForeignKey(Transaction, on_delete=models.CASCADE)
+    transaction = models.ForeignKey(Transaction, on_delete=models.CASCADE)
 
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
