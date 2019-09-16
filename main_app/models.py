@@ -20,19 +20,33 @@ ORDER_STATUS_CHOICES = [
     ('Confirmed', 'Confirmed')
 ]
 
+# class Transaction(models.Model):
+#     # bid_id = models.OneToOneField(
+#     #     Order,
+#     #     on_delete=models.CASCADE,
+#     #     primary_key = True
+#     # )
+#     # ask_id = models.OneToOneField(
+#     #     Order,
+#     #     on_delete=models.CASCADE,
+#     #     primary_key = True
+#     # )
+#     bid = models.CharField(max_length=200)
+#     ask = models.CharField(max_length=200)
+
+##### Create Transaction
+class TransactionManager(models.Manager):
+    def create_transaction(self, bid_order, ask_order):
+        transaction = self.create(bid_order = bid_order, ask_order = ask_order)
+        # do something with the book
+         
+        return transaction
+
 class Transaction(models.Model):
-    # bid_id = models.OneToOneField(
-    #     Order,
-    #     on_delete=models.CASCADE,
-    #     primary_key = True
-    # )
-    # ask_id = models.OneToOneField(
-    #     Order,
-    #     on_delete=models.CASCADE,
-    #     primary_key = True
-    # )
-    bid = models.CharField(max_length=200)
-    ask = models.CharField(max_length=200)
+    bid_order = models.CharField(max_length=100)
+    ask_order = models.CharField(max_length=100)
+
+    objects = TransactionManager()
 
 
 class Order(models.Model):
