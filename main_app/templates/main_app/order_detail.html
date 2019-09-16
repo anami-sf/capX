@@ -9,6 +9,7 @@ Detail PAGE
 <p>Amount: ${{order.amount}}</p>
 <p>User: {{order.user}}</p>
 
+
 <div>
         <a href="{% url 'order_update' order.id%}"> [ Edit ]</a>
         <a href="{% url 'order_delete' order.id%}"> [ Delete ] </a>
