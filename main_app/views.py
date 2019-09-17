@@ -5,33 +5,21 @@ from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.contrib.auth import login
+from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
-from .models import Order, Transaction
+from .models import Transaction, Order
 from django.contrib.auth.decorators import login_required
 # Import the mixin for class-based views
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.contrib.auth.models import User
 
 
 def home(request):
     return render (request,'home.html')
-    
-def user_details(request, user_id):
-    open_orders = User.objects.get(id = user_id).order_set.filter(status='Open')
-    print(open_orders)
-    filled_orders = User.objects.get(id = user_id).order_set.filter(status='Filled')
-    user = User.objects.get(id = user_id)
-    # all_orders = User.order_set.all()
-    # orders = all_orders.objects.filter(user = user)
-    # open_orders = orders.objects.filter(status='Open')
-    # filled_orders = orders.objects.filter(status='Filled')
 
-    return render(request,'users/details.html', {
-        'user': user,
-        # 'orders': orders,
-        'open_orders': open_orders,
-        'filled_orders': filled_orders
-    })
+# def create_transaction(request, bid_order, ask_order):
+#     transaction = Transaction.objects.create(bid = bid_order, ask = ask_order)
+
+
 
 def order_execute(request, pk):
     order = Order.objects.get(id=pk)
@@ -39,21 +27,21 @@ def order_execute(request, pk):
     if order.order_type == "Bid":
         bid_order = order
         for first_order in orders:
-            if first_order.order_type == "Ask" and first_order.amount == order.amount:
+            if first_order.order_type == "Ask" and (first_order.amount == order.amount):
                 ask_order = first_order
                 break
        # if ask_order == 
     else:
         ask_order = order      
         for first_order in orders:
-            if first_order.order_type == "Bid" and first_order.amount == order.amount:
+            if first_order.order_type == "Bid" and (first_order.amount == order.amount):
                 bid_order = first_order
                 break
     if ask_order and bid_order:
+        # create_transaction(request, bid_order, ask_order)
+        # transaction = Transaction.objects.get(bid_order = )
         transaction = Transaction.objects.create_transaction(bid_order.id, ask_order.id)
-       
-        print(f'THIS IS A TRANSACTION>>>>> {transaction}')
-        # create_transaction(ask_order, bid_order)
+        transaction.save()
         return render(
             request, 
             'transactions/transaction.html/', 
@@ -69,35 +57,38 @@ def order_execute(request, pk):
         )       
 
 
+
+
 class OrderList(ListView):
     model = Order
-
 
 class OrderDetail(LoginRequiredMixin, DetailView):
     model = Order
     
 
-class OrderCreate(LoginRequiredMixin, CreateView):
+class OrderCreate(LoginRequiredMixin,CreateView):
     model = Order
     fields = ['amount', 'order_type', 'coin_type']
 
     def form_valid(self, form):
         # Assign the logged in user (self.request.user)
         form.instance.user = self.request.user
+        
         # Instance methods are invoked by prefacing the 
         #method name with 'super()'
         return super().form_valid(form)
 
-
-class OrderDelete(LoginRequiredMixin, DeleteView):
+class OrderDelete(LoginRequiredMixin,DeleteView):
     model = Order
     success_url = '/orders/'
 
 
 
-class OrderUpdate(LoginRequiredMixin, UpdateView):
+class OrderUpdate(LoginRequiredMixin,UpdateView):
     model = Order
     fields = ['amount', 'order_type', 'coin_type']
+
+
 
 
 def signup(request):
@@ -119,3 +110,21 @@ def signup(request):
     context = {'form': form, 'error_message': error_message}
     return render(request, 'registration/signup.html', context)
 
+
+
+def user_details(request, user_id):
+    open_orders = User.objects.get(id = user_id).order_set.filter(status='Open')
+    print(open_orders)
+    filled_orders = User.objects.get(id = user_id).order_set.filter(status='Filled')
+    user = User.objects.get(id = user_id)
+    # all_orders = User.order_set.all()
+    # orders = all_orders.objects.filter(user = user)
+    # open_orders = orders.objects.filter(status='Open')
+    # filled_orders = orders.objects.filter(status='Filled')
+
+    return render(request,'users/details.html', {
+        'user': user,
+        # 'orders': orders,
+        'open_orders': open_orders,
+        'filled_orders': filled_orders
+    })
