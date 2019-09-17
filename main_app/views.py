@@ -21,10 +21,9 @@ def home(request):
 
 
 
-def order_execute(request, pk, user_id):
+def order_execute(request, pk):
     order = Order.objects.get(id=pk)
     orders = Order.objects.all()
-    # wallet = Wallet.objects.get(id = user_id)
     if order.order_type == "Bid":
         bid_order = order
         for first_order in orders:

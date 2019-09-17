@@ -35,18 +35,18 @@ ORDER_STATUS_CHOICES = [
 #     ask = models.CharField(max_length=200)
 
 
-# class Wallet(models.Model):
-#     user = models.OneToOneField(User, on_delete=models.CASCADE)
-#     eth_balance = models.DecimalField(
-#         max_digits=30,
-#         decimal_places = 8,
-#         default = 100
-#     )
-#     btc_balance = models.DecimalField(
-#         max_digits=30,
-#         decimal_places = 8,
-#         default = 100
-#     )
+class Wallet(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    eth_balance = models.DecimalField(
+        max_digits=30,
+        decimal_places = 8,
+        default = 100
+    )
+    btc_balance = models.DecimalField(
+        max_digits=30,
+        decimal_places = 8,
+        default = 100
+    )
 
 class TransactionManager(models.Manager):
     def create_transaction(self, bid_order, ask_order):
