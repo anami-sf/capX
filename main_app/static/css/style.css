@@ -34,3 +34,6 @@ body {
     text-align: center;
     color:red;
   }
+  .x{
+    color:blue !important;
+  }

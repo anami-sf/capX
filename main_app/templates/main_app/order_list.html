@@ -1,10 +1,10 @@
 {% extends 'base.html'%}
 {% block content %} 
-<H1>Order detials</H1>
+<H1>Order details</H1>
 
-<div class="container">
+<div class="container-fluid">
     <div class="row">
-      <div class="col-sm">
+      <div class="col-auto">
        <h2>Open Orders</h2>
         <br>
         <br>
@@ -27,43 +27,42 @@
 {% endfor %}
 </div>
       </div>
-      <div class="col-sm">
+      <div class="col-auto">
         <H2>One of three columns</H2>
+        <!-- TradingView Widget BEGIN -->
+        <div class="tradingview-widget-container">
+          <div id="tradingview_67b82"></div>
+          <div class="tradingview-widget-copyright"><a href="" rel="noopener" target="_blank"><span class="blue-text">capX Chart</span></a> by capX</div>
+          <script type="text/javascript" src="https://s3.tradingview.com/tv.js"></script> <script type="text/javascript">
+          new TradingView.widget(
+            {
+              "width": 580,
+              "height": 410,
+              "symbol": "NASDAQ:AAPL",
+              "interval": "D",
+              "timezone": "Etc/UTC",
+              "theme": "Light",
+              "style": "1",
+              "locale": "en",
+              "toolbar_bg": "#f1f3f6",
+              "enable_publishing": false,
+              "withdateranges": true,
+              "allow_symbol_change": true,
+              "details": true,
+              "container_id": "tradingview_67b82"
+              }
+              );
+          </script>
+</div>
       </div>
-      <div class="col-sm-7">
+      <div class="col-auto">
         <H2>One of three columns</H2>
         One of three columns
-                    <br>
-                    <br>
-                    <!-- TradingView Widget BEGIN -->
-                    <div class="tradingview-widget-container">
-                      <div id="tradingview_67b82"></div>
-                      <div class="tradingview-widget-copyright"><a href="" rel="noopener" target="_blank"><span class="blue-text">capX Chart</span></a> by capX</div>
-                      <script type="text/javascript" src="https://s3.tradingview.com/tv.js"></script> <script type="text/javascript">
-                      new TradingView.widget(
-                        {
-                          "width": 780,
-                          "height": 610,
-                          "symbol": "NASDAQ:AAPL",
-                          "interval": "D",
-                          "timezone": "Etc/UTC",
-                          "theme": "Light",
-                          "style": "1",
-                          "locale": "en",
-                          "toolbar_bg": "#f1f3f6",
-                          "enable_publishing": false,
-                          "withdateranges": true,
-                          "allow_symbol_change": true,
-                          "details": true,
-                          "container_id": "tradingview_67b82"
-                          }
-                          );
-                      </script>
-</div>
+                  
       </div>
     </div>
   </div>
-
+  <p> cap<span class='x'>X</span> </p>
 <!--<div class="list-group">
     <div class="d-flex w-100 justify-content-between">
     {% for order in order_list %}
