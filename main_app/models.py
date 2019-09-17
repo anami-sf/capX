@@ -34,7 +34,20 @@ ORDER_STATUS_CHOICES = [
 #     bid = models.CharField(max_length=200)
 #     ask = models.CharField(max_length=200)
 
-##### Create Transaction
+
+class Wallet(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    eth_balance = models.DecimalField(
+        max_digits=30,
+        decimal_places = 8,
+        default = 100
+    )
+    btc_balance = models.DecimalField(
+        max_digits=30,
+        decimal_places = 8,
+        default = 100
+    )
+
 class TransactionManager(models.Manager):
     def create_transaction(self, bid_order, ask_order):
         transaction = self.create(bid_order = bid_order, ask_order = ask_order)
@@ -43,6 +56,8 @@ class TransactionManager(models.Manager):
         a = Order.objects.get(id=ask_order)
         b.status = 'Filled'
         a.status = 'Filled'
+        b.transaction = transaction
+        a.transaction = transaction
         b.save()
         a.save()
         return transaction
@@ -53,6 +68,7 @@ class Transaction(models.Model):
 
     objects = TransactionManager()
 
+    
 
 class Order(models.Model):
     amount= models.DecimalField(
@@ -76,7 +92,7 @@ class Order(models.Model):
         default = 'Open'
     )
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    transaction = models.ForeignKey(Transaction, on_delete=models.CASCADE, blank=True, null=True)
+    transaction = models.ForeignKey(Transaction, on_delete=models.CASCADE, null=True)
 
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
