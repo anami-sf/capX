@@ -16,6 +16,21 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 def home(request):
     return render (request,'home.html')
 
+def account(request):
+    user= request.user
+    user_id=user.id
+    return user_details(request, user_id)
+
+def user_details(request, user_id):
+    open_orders = User.objects.get(id = user_id).order_set.filter(status='Open')
+    print(open_orders)
+    filled_orders = User.objects.get(id = user_id).order_set.filter(status='Filled')
+    user = User.objects.get(id = user_id)
+    # all_orders = User.order_set.all()
+    # orders = all_orders.objects.filter(user = user)
+    # open_orders = orders.objects.filter(status='Open')
+    # filled_orders = orders.objects.filter(status='Filled')
+
 # def create_transaction(request, bid_order, ask_order):
 #     transaction = Transaction.objects.create(bid = bid_order, ask = ask_order)
 
