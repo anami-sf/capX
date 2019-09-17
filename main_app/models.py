@@ -16,8 +16,8 @@ ORDER_COIN_CHOICES = [
 ]
 
 ORDER_STATUS_CHOICES = [
-    ('Pending', 'Pending'),
-    ('Confirmed', 'Confirmed')
+    ('Open', 'Open'),
+    ('Filled', 'Filled')
 ]
 
 # class Transaction(models.Model):
@@ -39,7 +39,12 @@ class TransactionManager(models.Manager):
     def create_transaction(self, bid_order, ask_order):
         transaction = self.create(bid_order = bid_order, ask_order = ask_order)
         # do something with the book
-         
+        b = Order.objects.get(id=bid_order)
+        a = Order.objects.get(id=ask_order)
+        b.status = 'Filled'
+        a.status = 'Filled'
+        b.save()
+        a.save()
         return transaction
 
 class Transaction(models.Model):
@@ -68,7 +73,7 @@ class Order(models.Model):
     status = models.CharField(
         max_length =  9,
         choices = ORDER_STATUS_CHOICES,
-        default = 'Pending'
+        default = 'Open'
     )
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     transaction = models.ForeignKey(Transaction, on_delete=models.CASCADE, blank=True, null=True)
