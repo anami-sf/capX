@@ -3,3 +3,4 @@ from .models import Order, Transaction
 # Register your models here.
 admin.site.register(Order)
 admin.site.register(Transaction)
+# admin.site.register(Wallet)

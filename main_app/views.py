@@ -21,9 +21,10 @@ def home(request):
 
 
 
-def order_execute(request, pk):
+def order_execute(request, pk, user_id):
     order = Order.objects.get(id=pk)
     orders = Order.objects.all()
+    # wallet = Wallet.objects.get(id = user_id)
     if order.order_type == "Bid":
         bid_order = order
         for first_order in orders:
@@ -39,9 +40,7 @@ def order_execute(request, pk):
                 break
     if ask_order and bid_order:
         # create_transaction(request, bid_order, ask_order)
-        # transaction = Transaction.objects.get(bid_order = )
         transaction = Transaction.objects.create_transaction(bid_order.id, ask_order.id)
-        transaction.save()
         return render(
             request, 
             'transactions/transaction.html/', 
