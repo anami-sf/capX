@@ -7,7 +7,7 @@ from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.contrib.auth import login
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
-from .models import Transaction, Order
+from .models import Transaction, Order, Wallet
 from django.contrib.auth.decorators import login_required
 # Import the mixin for class-based views
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -20,6 +20,13 @@ def account(request):
     user= request.user
     user_id=user.id
     return user_details(request, user_id)
+
+
+
+def wallet_details(request, user_id):
+    user_wallet = Wallet.objects.get(user=user_id)
+    print(user_wallet.eth_balance)
+    return
 
 def user_details(request, user_id):
     open_orders = User.objects.get(id = user_id).order_set.filter(status='Open')
@@ -134,10 +141,11 @@ def user_details(request, user_id):
     # orders = all_orders.objects.filter(user = user)
     # open_orders = orders.objects.filter(status='Open')
     # filled_orders = orders.objects.filter(status='Filled')
-
+    wallet = Wallet.objects.get(id=user_id)
+    
     return render(request,'users/details.html', {
         'user': user,
-        # 'orders': orders,
+        'wallet': wallet,
         'open_orders': open_orders,
         'filled_orders': filled_orders
     })

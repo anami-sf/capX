@@ -13,5 +13,6 @@ urlpatterns = [
     path('orders/<int:pk>/execute/', views.order_execute, name='order_execute'),
     path('users/<int:user_id>/', views.user_details, name='user_detail'),
     path('users/account/', views.account, name='account'),
+    path('wallets/<int:user_id>/', views.wallet_details, name='wallet_details')
 # path('orders/<int:pk>/', views.OrderDetail.as_view(), name='order_detail'),
 ]
