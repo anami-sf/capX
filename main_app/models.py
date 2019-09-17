@@ -39,8 +39,8 @@ class TransactionManager(models.Manager):
     def create_transaction(self, bid_order, ask_order):
         transaction = self.create(bid_order = bid_order, ask_order = ask_order)
         # do something with the book
-        b = Order.objects.get(id=bid_order.id)
-        a = Order.objects.get(id=ask_order.id)
+        b = Order.objects.get(id=bid_order)
+        a = Order.objects.get(id=ask_order)
         b.status = 'Filled'
         a.status = 'Filled'
         b.save()
