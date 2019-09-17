@@ -15,7 +15,12 @@ from django.contrib.auth.models import User
 
 def home(request):
     return render (request,'home.html')
-    
+
+def account(request):
+    user= request.user
+    user_id=user.id
+    return user_details(request, user_id)
+
 def user_details(request, user_id):
     open_orders = User.objects.get(id = user_id).order_set.filter(status='Open')
     print(open_orders)
