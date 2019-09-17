@@ -10,11 +10,28 @@ from .models import Order, Transaction
 from django.contrib.auth.decorators import login_required
 # Import the mixin for class-based views
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.models import User
 
 
 def home(request):
     return render (request,'home.html')
+    
+def user_details(request, user_id):
+    open_orders = User.objects.get(id = user_id).order_set.filter(status='Open')
+    print(open_orders)
+    filled_orders = User.objects.get(id = user_id).order_set.filter(status='Filled')
+    user = User.objects.get(id = user_id)
+    # all_orders = User.order_set.all()
+    # orders = all_orders.objects.filter(user = user)
+    # open_orders = orders.objects.filter(status='Open')
+    # filled_orders = orders.objects.filter(status='Filled')
 
+    return render(request,'users/details.html', {
+        'user': user,
+        # 'orders': orders,
+        'open_orders': open_orders,
+        'filled_orders': filled_orders
+    })
 
 def order_execute(request, pk):
     order = Order.objects.get(id=pk)
@@ -22,19 +39,20 @@ def order_execute(request, pk):
     if order.order_type == "Bid":
         bid_order = order
         for first_order in orders:
-            if first_order.order_type == "Ask":
+            if first_order.order_type == "Ask" and first_order.amount == order.amount:
                 ask_order = first_order
                 break
        # if ask_order == 
     else:
         ask_order = order      
         for first_order in orders:
-            if first_order.order_type == "Bid":
+            if first_order.order_type == "Bid" and first_order.amount == order.amount:
                 bid_order = first_order
                 break
     if ask_order and bid_order:
-        transaction = Transaction.objects.create_transaction(bid_order, ask_order)
-        print(transaction)
+        transaction = Transaction.objects.create_transaction(bid_order.id, ask_order.id)
+       
+        print(f'THIS IS A TRANSACTION>>>>> {transaction}')
         # create_transaction(ask_order, bid_order)
         return render(
             request, 
