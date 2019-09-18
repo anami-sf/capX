@@ -1,22 +1,24 @@
 body {
-    font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
-    position: relative;
-    max-width: 2560px;
-    margin: 0px;
-  }
-  .footer {
-    position: fixed;
-    left: 0;
-    bottom: 0;
-    width: 100%;
-    background-color:#323232;
-    text-align: center;
-  }
+  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  position: relative;
+  max-width: 2560px;
+  margin: .05px;
+  background-color:radial-gradient(grey 30%, white 15%, grey 30%)
+}
 
-  .navbar{
+.footer {
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  background-color:rgb(37,43,57);
+  text-align: center;
+}
 
-    background-color:#323232;
-  }
+.navbar{
+
+  background-color:rgb(37,43,57);
+}
 
 .navbar-default .navbar-brand {
     color: whitesmoke;
@@ -25,15 +27,20 @@ body {
   color: whitesmoke;
 }
 
-  .navbar-default .navbar-nav>li>a:hover  {
-  
-    background-color: white;
-  }
+.navbar-default .navbar-nav>li>a:hover  {
+  background-color: white;
+}
 
-  list-group. {
-    text-align: center;
-    color:red;
-  }
-  .x{
-    color:blue !important;
-  }
+
+
+.jumbotron {
+  background-color: grey;
+}
+
+.x {
+  color:#3EC1D5;
+}
+
+.orderHead{
+  text-align: left;
+}

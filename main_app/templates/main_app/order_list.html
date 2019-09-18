@@ -1,14 +1,17 @@
 {% extends 'base.html'%}
 {% block content %} 
-<H1>Order details</H1>
 
-<div class="container-fluid">
+
+<H1 class="orderHead">Order details</H1>
+<hr>
+
+<div class="container-fluid d-flex justify-content-center">
     <div class="row">
       <div class="col-auto">
        <h2>Open Orders</h2>
         <br>
         <br>
-        <div class="list-group">
+  <div class="list-group">
   
     <div class="d-flex w-100 justify-content-between">
     </div>
@@ -26,9 +29,11 @@
     <hr>
 {% endfor %}
 </div>
+
+
       </div>
-      <div class="col-auto">
-        <H2>One of three columns</H2>
+      <div class="d-flex w-100 justify-content-between">
+  
         <!-- TradingView Widget BEGIN -->
         <div class="tradingview-widget-container">
           <div id="tradingview_67b82"></div>
@@ -56,13 +61,27 @@
 </div>
       </div>
       <div class="col-auto">
-        <H2>One of three columns</H2>
+        <H2>Filled ourders</H2>
         One of three columns
+
+        {% for order in order_list %}
+    <p>Order Type: {{order.order_type}}</p>
+    <p>Coin: {{order.coin_type}}</p>
+    <p>Amount: ${{order.amount}}</p>
+    <p>User: {{order.user}}</p>
+    <a href="{% url 'order_detail' order.id%}">Fill Order</a>
+    <br>
+    <div>
+            <a href="{% url 'order_update' order.id%}" >Edit</a>
+            <a href="{% url 'order_delete' order.id%}">Delete</a>
+    </div>
+    <hr>
+{% endfor %}
                   
       </div>
     </div>
   </div>
-  <p> cap<span class='x'>X</span> </p>
+
 <!--<div class="list-group">
     <div class="d-flex w-100 justify-content-between">
     {% for order in order_list %}
@@ -83,10 +102,10 @@
     <a href="../accounts/login/"><p> Please log in first to trade</p></a>
     {% endif %}
     <br>
-{% endfor %}
+{% endfor %} -->
+
 
 
 
 {% endblock %}
-
 
