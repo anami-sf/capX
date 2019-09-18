@@ -7,8 +7,9 @@
 
 <div class="row-center">
     <div class="col-md-4">
-      <h2>The problem</h2>
+      <h2>BID ORDERS</h2>
       {% for order in order_list %}
+      {% if order.order_type == 'Bid' %}
     <p>Order ID: {{order.id}}</p>
     <p>Order Type: {{order.order_type}}</p>
     <p>Coin: {{order.coin_type}}</p>
@@ -21,10 +22,13 @@
             <a href="{% url 'order_delete' order.id%}">Delete</a>
     </div>
     <hr>
+    {% endif %}
 {% endfor %}
+
       <div>
-          <h2>Heading</h2>
-      {% for order in order_list %}
+          <h2>ASK ORDERS</h2>
+          {% for order in order_list %}
+          {% if order.order_type == 'Ask' %}
         <div class="order-card">
           <p>Order ID: {{order.id}}</p>
           <p>Order Type: {{order.order_type}}</p>
@@ -39,6 +43,7 @@
           </div>
           <hr>
         </div>
+        {% endif %}
       {% endfor %}
       </div>
     </div>
@@ -54,7 +59,7 @@
             {
               "width": 480,
               "height": 310,
-              "symbol": "BITSTAMP:BTCUSD",
+              "symbol": "COINBASE:BTCUSD",
               "interval": "240",
               "timezone": "Etc/UTC",
               "theme": "Light",
@@ -72,8 +77,10 @@
           </div>
        </div>
     <div class="col-md-4">
-      <h2>Heading</h2>
+      <h2>Filled Orders</h2>
+      
       {% for order in order_list %}
+      {% if order.status == 'Filled' %}
         <div class="order-card">
           <p>Order ID: {{order.id}}</p>
           <p>Order Type: {{order.order_type}}</p>
@@ -88,6 +95,7 @@
           </div>
           <hr>
         </div>
+        {% endif %}
       {% endfor %}
     <div>
      <!-- CryptoRival News Widget BEGIN -->
