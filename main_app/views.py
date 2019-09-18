@@ -22,8 +22,6 @@ def account(request):
     user= request.user
     user_id=user.id
     return user_details(request, user_id)
-    
-    
 
 def order_execute(request, pk):
     print(f'!!!!!!!!!!!!!!!! order pk: {pk}')
@@ -42,7 +40,7 @@ def order_execute(request, pk):
     print(f'!!!!!!!!!!!!!!!! other_wallet: {other_wallet}')
     
 
-    if order.order_type == "Bid":
+    if order.order_type == "Bid" and order.status == "Open":
         bid_order = order
         for order in orders:
             print(f'!!!!!!!!!!!!!!!!bid_order: {bid_order}')
@@ -56,7 +54,7 @@ def order_execute(request, pk):
                 print(f'!!!!!!!!!!!!!!!!ask_order_amoun: {order.amount}')
                 ask_order = order
                 break
-    else:
+    elif order.order_type == "Ask" and order.status == "Open":
         ask_order = order      
         for order in orders:
             print(f'!!!!!!!!!!!!!!!!ask_order: {ask_order}')
@@ -74,6 +72,7 @@ def order_execute(request, pk):
                 print(f'!!!!!!!!!!!!!!!!bid_order_amoun: {order.amount}')
                 bid_order = order
                 break
+    #We need an else here to render error page
     print(f'!!!!!!!!!!!!!!!!ask_order: {ask_order}')
     print(f'!!!!!!!!!!!!!!!!bid_order: {bid_order}')
     if ask_order and bid_order:
@@ -121,7 +120,6 @@ def order_execute(request, pk):
         print(f'!!!!!!!!!!!!!!!! wallet: {wallet}')
         print(f'!!!!!!!!!!!!!!!! request.user: {request.user}')
         
-
         return render(
             request, 
             'transactions/transaction.html/', 
@@ -189,12 +187,9 @@ class OrderDelete(LoginRequiredMixin,DeleteView):
     success_url = '/orders/'
 
 
-
 class OrderUpdate(LoginRequiredMixin,UpdateView):
     model = Order
     fields = ['amount', 'order_type', 'coin_type']
-
-
 
 
 def signup(request):
@@ -208,14 +203,16 @@ def signup(request):
             user = form.save()
         # This is how we log a user in via code
             login(request, user)
-            return redirect('home')
+            print('>>>>>>request.user:', request.user)
+            wallet = Wallet.objects.create_wallet(request.user)
+            return redirect('/users/account/')
     else:
         error_message = 'Invalid sign up - try again'
     # A bad POST or a GET request, so render signup.html with an empty form
     form = UserCreationForm()
     context = {'form': form, 'error_message': error_message}
+    
     return render(request, 'registration/signup.html', context)
-
 
 
 def user_details(request, user_id):
