@@ -187,7 +187,6 @@ class OrderDelete(LoginRequiredMixin,DeleteView):
     success_url = '/orders/'
 
 
-
 class OrderUpdate(LoginRequiredMixin,UpdateView):
     model = Order
     fields = ['amount', 'order_type', 'coin_type']
