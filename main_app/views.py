@@ -26,46 +26,55 @@ def account(request):
     
 
 def order_execute(request, pk):
+    print(f'!!!!!!!!!!!!!!!! request.user: {request.user}')
     user_id = request.user.id
-    order = Order.objects.get(id=pk)
+    order = Order.objects.get(id=pk) #order was made by 'other user' wiht 'other wallet'
     orders = Order.objects.all()
+    print(f'!!!!!!!!!!!!!!!! order.id: {order.id}')
+    print(f'!!!!!!!!!!!!!!!! order.order_type: {order.order_type}')
+    print(f'!!!!!!!!!!!!!!!! order.amount: {order.amount}')
     wallet = Wallet.objects.get(user = user_id)
     
     other_wallet = None
 
     if order.order_type == "Bid":
         bid_order = order
-        for first_order in orders:
-            other_wallet = Wallet.objects.get(user = first_order.user)
-            if first_order.order_type == "Ask" and (first_order.amount == order.amount) and first_order.user != bid_order.user:
-                ask_order = first_order
+        for order in orders:
+            if order.order_type == "Ask" and (order.amount == bid_order.amount) and order.user.id != user_id:
+                print(f'!!!!!!!!!!!!!!!!ask_order_type: {order.order_type}')
+                print(f'!!!!!!!!!!!!!!!!ask_order_user: {order.user}')
+                print(f'!!!!!!!!!!!!!!!!ask_order_amoun: {order.amoun}')
+                other_wallet = Wallet.objects.get(user = order.user)
+                print(f'!!!!!!!!!!!!!!!!other wallet: {other_wallet}')
+                ask_order = order
                 break
     else:
         ask_order = order      
-        for first_order in orders:
-            other_wallet = Wallet.objects.get(user = first_order.user)
-            ask_match_user_id = first_order.user
-            if first_order.order_type == "Bid" and (first_order.amount == order.amount)  and first_order.user != ask_order.user:
-                bid_order = first_order
+        for order in orders:
+            if order.order_type == "Bid" and (order.amount == ask_order.amount)  and order.user.id != user_id:
+                print(f'!!!!!!!!!!!!!!!!bid_order_type: {order.order_type}')
+                print(f'!!!!!!!!!!!!!!!!bid_order_user: {order.user}')
+                print(f'!!!!!!!!!!!!!!!!bid_order_amoun: {order.amount}')
+                other_wallet = Wallet.objects.get(user = order.user)
+                print(f'!!!!!!!!!!!!!!!!other wallet: {other_wallet}')
+                bid_order = order
                 break
+    print(f'!!!!!!!!!!!!!!!!ask_order: {ask_order}')
+    print(f'!!!!!!!!!!!!!!!!bid_order: {bid_order}')
     if ask_order and bid_order:
         print(f'!!!!!!!!!!!!!!!!{wallet}')
-        print(f'!!!!!!!!!!!!!!!!{user_id}')
-        print(f'!!!!!!!!!!!!!!!!{request.user.id}')
-        print(f'!!!!!!!!!!!!!!!!{order}')
         print(f'!!!!!!!!!!!!!!!!other wallet: {other_wallet}')
         transaction = Transaction.objects.create_transaction(bid_order.id, ask_order.id)
         if order.order_type == "Bid": 
-            wallet.eth_balance = wallet.eth_balance + order.amount
+            wallet.eth_balance = wallet.eth_balance - order.amount
             wallet.save()
-            other_wallet.eth_balance = other_wallet.eth_balance - order.amount
+            other_wallet.eth_balance = other_wallet.eth_balance + order.amount
             other_wallet.save()
         if order.order_type == "Ask": 
-            wallet.btc_balance = wallet.btc_balance + order.amount
+            wallet.btc_balance = wallet.btc_balance - order.amount
             wallet.save()
-            other_wallet.btc_balance = other_wallet.btc_balance - order.amount
+            other_wallet.btc_balance = other_wallet.btc_balance + order.amount
             other_wallet.save()
-
 
         return render(
             request, 
@@ -80,8 +89,6 @@ def order_execute(request, pk):
             'transactions/transaction.html/', 
             {'error': 'Unable to execute your order at this time'}
         )       
-
-
 
 
 class OrderList(ListView):
