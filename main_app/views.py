@@ -142,8 +142,9 @@ def order_execute(request, pk):
         )       
 
 
-class OrderList(ListView):
-    model = Order
+def order_index(request):
+    order_list=Order.objects.all()
+    return render(request, 'orders/index.html', {'order_list': order_list})
 
 class OrderDetail(LoginRequiredMixin, DetailView):
     model = Order
