@@ -206,7 +206,7 @@ def signup(request):
             login(request, user)
             print('>>>>>>request.user:', request.user)
             wallet = Wallet.objects.create_wallet(request.user)
-            return redirect('home')
+            return redirect('/users/account/')
     else:
         error_message = 'Invalid sign up - try again'
     # A bad POST or a GET request, so render signup.html with an empty form
