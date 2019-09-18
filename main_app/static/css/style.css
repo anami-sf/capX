@@ -3,7 +3,7 @@ body {
   position: relative;
   max-width: 2560px;
   margin: .05px;
-  background-color:radial-gradient(grey 30%, white 15%, grey 30%)
+  background-color:#f0f0f0;
 }
 
 .footer {
@@ -35,6 +35,8 @@ body {
 
 .jumbotron {
   background-color: grey;
+  border-bottom: 6px solid #3EC1D5;
+  border-top: 6px solid #3EC1D5; 
 }
 
 .x {
@@ -44,3 +46,7 @@ body {
 .orderHead{
   text-align: left;
 }
+
+hr { display: block; height: 1px;
+  border: 0; border-top: 1px solid #3EC1D5;
+  margin: 1em 0; padding: 0; }
