@@ -42,7 +42,7 @@ def order_execute(request, pk):
     print(f'!!!!!!!!!!!!!!!! other_wallet: {other_wallet}')
     
 
-    if order.order_type == "Bid":
+    if order.order_type == "Bid" and order.status == "Open":
         bid_order = order
         for order in orders:
             print(f'!!!!!!!!!!!!!!!!bid_order: {bid_order}')
@@ -56,7 +56,7 @@ def order_execute(request, pk):
                 print(f'!!!!!!!!!!!!!!!!ask_order_amoun: {order.amount}')
                 ask_order = order
                 break
-    else:
+    elif order.order_type == "Ask" and order.status == "Open":
         ask_order = order      
         for order in orders:
             print(f'!!!!!!!!!!!!!!!!ask_order: {ask_order}')
@@ -74,6 +74,7 @@ def order_execute(request, pk):
                 print(f'!!!!!!!!!!!!!!!!bid_order_amoun: {order.amount}')
                 bid_order = order
                 break
+    #We need an else here to render error page
     print(f'!!!!!!!!!!!!!!!!ask_order: {ask_order}')
     print(f'!!!!!!!!!!!!!!!!bid_order: {bid_order}')
     if ask_order and bid_order:
