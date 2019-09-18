@@ -20,20 +20,10 @@ ORDER_STATUS_CHOICES = [
     ('Filled', 'Filled')
 ]
 
-# class Transaction(models.Model):
-#     # bid_id = models.OneToOneField(
-#     #     Order,
-#     #     on_delete=models.CASCADE,
-#     #     primary_key = True
-#     # )
-#     # ask_id = models.OneToOneField(
-#     #     Order,
-#     #     on_delete=models.CASCADE,
-#     #     primary_key = True
-#     # )
-#     bid = models.CharField(max_length=200)
-#     ask = models.CharField(max_length=200)
-
+class WalletManager(models.Manager):
+    def create_wallet(self, user):
+        wallet = self.create(user=user)
+        return wallet
 
 class Wallet(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key = True)
@@ -47,6 +37,9 @@ class Wallet(models.Model):
         decimal_places = 8,
         default = 10000
     )
+    objects = WalletManager()
+
+
 
 class TransactionManager(models.Manager):
     def create_transaction(self, bid_order, ask_order):

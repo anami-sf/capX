@@ -22,8 +22,6 @@ def account(request):
     user= request.user
     user_id=user.id
     return user_details(request, user_id)
-    
-    
 
 def order_execute(request, pk):
     print(f'!!!!!!!!!!!!!!!! order pk: {pk}')
@@ -122,7 +120,6 @@ def order_execute(request, pk):
         print(f'!!!!!!!!!!!!!!!! wallet: {wallet}')
         print(f'!!!!!!!!!!!!!!!! request.user: {request.user}')
         
-
         return render(
             request, 
             'transactions/transaction.html/', 
@@ -196,8 +193,6 @@ class OrderUpdate(LoginRequiredMixin,UpdateView):
     fields = ['amount', 'order_type', 'coin_type']
 
 
-
-
 def signup(request):
     error_message = ''
     if request.method == 'POST':
@@ -209,14 +204,16 @@ def signup(request):
             user = form.save()
         # This is how we log a user in via code
             login(request, user)
+            print('>>>>>>request.user:', request.user)
+            wallet = Wallet.objects.create_wallet(request.user)
             return redirect('home')
     else:
         error_message = 'Invalid sign up - try again'
     # A bad POST or a GET request, so render signup.html with an empty form
     form = UserCreationForm()
     context = {'form': form, 'error_message': error_message}
+    
     return render(request, 'registration/signup.html', context)
-
 
 
 def user_details(request, user_id):
