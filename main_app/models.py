@@ -36,16 +36,16 @@ ORDER_STATUS_CHOICES = [
 
 
 class Wallet(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key = True)
     eth_balance = models.DecimalField(
         max_digits=30,
         decimal_places = 8,
-        default = 100
+        default = 10000
     )
     btc_balance = models.DecimalField(
         max_digits=30,
         decimal_places = 8,
-        default = 100
+        default = 10000
     )
 
 class TransactionManager(models.Manager):

@@ -7,10 +7,12 @@ from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.contrib.auth import login
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
-from .models import Transaction, Order
+from .models import Transaction, Order, Wallet
 from django.contrib.auth.decorators import login_required
 # Import the mixin for class-based views
 from django.contrib.auth.mixins import LoginRequiredMixin
+from .forms import OrderForm
+from decimal import Decimal
 
 
 def home(request):
@@ -20,21 +22,8 @@ def account(request):
     user= request.user
     user_id=user.id
     return user_details(request, user_id)
-
-def user_details(request, user_id):
-    open_orders = User.objects.get(id = user_id).order_set.filter(status='Open')
-    print(open_orders)
-    filled_orders = User.objects.get(id = user_id).order_set.filter(status='Filled')
-    user = User.objects.get(id = user_id)
-    # all_orders = User.order_set.all()
-    # orders = all_orders.objects.filter(user = user)
-    # open_orders = orders.objects.filter(status='Open')
-    # filled_orders = orders.objects.filter(status='Filled')
-
-# def create_transaction(request, bid_order, ask_order):
-#     transaction = Transaction.objects.create(bid = bid_order, ask = ask_order)
-
-
+    
+    
 
 def order_execute(request, pk):
     order = Order.objects.get(id=pk)
@@ -45,7 +34,6 @@ def order_execute(request, pk):
             if first_order.order_type == "Ask" and (first_order.amount == order.amount):
                 ask_order = first_order
                 break
-       # if ask_order == 
     else:
         ask_order = order      
         for first_order in orders:
@@ -79,17 +67,44 @@ class OrderDetail(LoginRequiredMixin, DetailView):
     model = Order
     
 
-class OrderCreate(LoginRequiredMixin,CreateView):
-    model = Order
-    fields = ['amount', 'order_type', 'coin_type']
+# class OrderCreate(LoginRequiredMixin,CreateView):
+#     model = Order
+#     fields = ['amount', 'order_type', 'coin_type']
+    
+#     def check_balances(self)
 
-    def form_valid(self, form):
-        # Assign the logged in user (self.request.user)
-        form.instance.user = self.request.user
-        
-        # Instance methods are invoked by prefacing the 
-        #method name with 'super()'
-        return super().form_valid(form)
+
+#     def form_valid(self, form):
+#         # Assign the logged in user (self.request.user)
+#         form.instance.user = self.request.user
+#         # Instance methods are invoked by prefacing the 
+#         #method name with 'super()'
+#         return super().form_valid(form)
+
+def order_create(request):
+    wallet = Wallet.objects.get(user = request.user.id)
+    print(f'>>>>{wallet}>>>')
+    if request.method == "POST":
+        form = OrderForm(request.POST)
+        order_amount = request.POST['amount']
+        # order_order_type = request.POST['order_type']
+        # order_coin = request.POST[]
+        # if wallet.eth_balance - order_amount < 0:
+        #     #  or wallet.btc_balance - order_amount  < 
+        #     return redirect('orders')
+        # else:
+        if form.is_valid():
+            order = form.save(commit=False)
+            order.user = request.user
+            print(f'>>>>>{order.user}')  
+            wallet.eth_balance = (wallet.eth_balance - Decimal(order_amount))
+            order.save()
+            wallet.save()
+            return redirect('order_detail', pk=order.pk)
+            print(order.pk)
+    else:
+         form = OrderForm()
+    return render(request, 'main_app/order_form.html', {'form':form})
 
 class OrderDelete(LoginRequiredMixin,DeleteView):
     model = Order
@@ -127,17 +142,18 @@ def signup(request):
 
 def user_details(request, user_id):
     open_orders = User.objects.get(id = user_id).order_set.filter(status='Open')
-    print(open_orders)
+    
     filled_orders = User.objects.get(id = user_id).order_set.filter(status='Filled')
     user = User.objects.get(id = user_id)
     # all_orders = User.order_set.all()
     # orders = all_orders.objects.filter(user = user)
     # open_orders = orders.objects.filter(status='Open')
     # filled_orders = orders.objects.filter(status='Filled')
-
+    wallet = Wallet.objects.get(user=user_id)
+    
     return render(request,'users/details.html', {
         'user': user,
-        # 'orders': orders,
+        'wallet': wallet,
         'open_orders': open_orders,
         'filled_orders': filled_orders
     })
