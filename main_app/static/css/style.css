@@ -1,7 +1,7 @@
 body {
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
   position: relative;
-  max-width: 2560px;
+
   margin: .05px;
   background-color:#f0f0f0;
 }
@@ -31,6 +31,11 @@ body {
   background-color: white;
 }
 
+#order-container {
+  padding: 0;
+  margin: 0;
+
+}
 
 
 .jumbotron {
@@ -44,7 +49,7 @@ body {
 }
 
 .orderHead{
-  text-align: left;
+  padding-left: 70px;
 }
 
 hr { display: block; height: 1px;
