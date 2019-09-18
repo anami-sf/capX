@@ -108,7 +108,6 @@ def order_create(request):
             order.save()
             wallet.save()
             return redirect('order_detail', pk=order.pk)
-            print(order.pk)
     else:
          form = OrderForm()
     return render(request, 'main_app/order_form.html', {'form':form})
