@@ -24,7 +24,7 @@ def account(request):
     return user_details(request, user_id)
     
 def login(request):
-    return render(request,'login.html')
+    return render(request,'login_page.html')
     
 
 def order_execute(request, pk):
@@ -161,6 +161,7 @@ class OrderDetail(LoginRequiredMixin, DetailView):
 #         #method name with 'super()'
 #         return super().form_valid(form)
 
+@login_required
 def order_create(request):
     wallet = Wallet.objects.get(user = request.user.id)
     print(f'>>>>{wallet}>>>')
@@ -220,10 +221,10 @@ def signup(request):
     return render(request, 'registration/signup.html', context)
 
 
-
-def user_details(request, user_id):
+@login_required
+def user_details(request):
+    user_id = request.user.id
     open_orders = User.objects.get(id = user_id).order_set.filter(status='Open')
-    
     filled_orders = User.objects.get(id = user_id).order_set.filter(status='Filled')
     user = User.objects.get(id = user_id)
     # all_orders = User.order_set.all()
@@ -231,10 +232,13 @@ def user_details(request, user_id):
     # open_orders = orders.objects.filter(status='Open')
     # filled_orders = orders.objects.filter(status='Filled')
     wallet = Wallet.objects.get(user=user_id)
-    
     return render(request,'users/details.html', {
         'user': user,
         'wallet': wallet,
         'open_orders': open_orders,
         'filled_orders': filled_orders
-    })
+    }) 
+    # else:
+    #     return redirect('/orders')
+        
+    
