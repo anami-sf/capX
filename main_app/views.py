@@ -86,7 +86,7 @@ def order_execute(request, pk):
             print(f'!!!!!!!!!!!!!!!!other wallet: {other_wallet}')
             print(f'!!!!!!!!!!!!!!!!other wallet eth: {other_wallet.eth_balance}')
             print(f'!!!!!!!!!!!!!!!!other wallet btc: {other_wallet.btc_balance}')
-            wallet.eth_balance = wallet.btc_balance + order.amount
+            wallet.btc_balance = wallet.btc_balance + order.amount
             wallet.save()
             other_wallet.eth_balance = other_wallet.eth_balance + order.amount
             other_wallet.save()
