@@ -125,3 +125,6 @@ LOGIN_REDIRECT_URL = 'account'
 LOGOUT_REDIRECT_URL = '/'
 
 # <a href="{% url 'detail' user.id %}">
+
+import django_heroku
+django_heroku.settings(locals())
