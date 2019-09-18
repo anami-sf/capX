@@ -26,106 +26,42 @@ def account(request):
     user_id = request.user.id
     return user_details(request)
     
-def login(request):
-    return render(request,'login_page.html')
-    
+
+########################################
 
 def order_execute(request, pk):
-    print(f'!!!!!!!!!!!!!!!! order pk: {pk}')
-    user_id = request.user.id
-    order = Order.objects.get(id=pk) #order was made by 'other user' wiht 'other wallet'
-    orders = Order.objects.all()
-    print(f'!!!!!!!!!!!!!!!! order.id: {order.id}')
-    print(f'!!!!!!!!!!!!!!!! order.order_type: {order.order_type}')
-    print(f'!!!!!!!!!!!!!!!! order.amount: {order.amount}')
-    
+    order = Order.objects.get(id=pk) 
+    orders = Order.objects.all()    
     wallet = Wallet.objects.get(user = request.user.id)
-    other_wallet = Wallet.objects.get(user = order.user)
-    print(f'!!!!!!!!!!!!!!!! request.user: {request.user}')
-    print(f'!!!!!!!!!!!!!!!! wallet: {wallet}')
-    print(f'!!!!!!!!!!!!!!!! order.user: {order.user}')  #### order user is same as admin
-    print(f'!!!!!!!!!!!!!!!! other_wallet: {other_wallet}')
-    
+    other_wallet = Wallet.objects.get(user = order.user) 
 
     if order.order_type == "Bid" and order.status == "Open":
         bid_order = order
         for order in orders:
-            print(f'!!!!!!!!!!!!!!!!bid_order: {bid_order}')
-            print(f'!!!!!!!!!!!!!!!!order: {order}')
-            print(f'!!!!!!!!!!!!!!!!order.order_type: {order.order_type}')
-            print(f'!!!!!!!!!!!!!!!!order.amount: {order.amount}')
-            print(f'!!!!!!!!!!!!!!!!order.user: {order.user}')
             if order.order_type == "Ask" and (order.amount == bid_order.amount) and order.user.id != bid_order.user.id:
-                print(f'!!!!!!!!!!!!!!!!ask_order_type: {order.order_type}')
-                print(f'!!!!!!!!!!!!!!!!ask_order_user: {order.user}')
-                print(f'!!!!!!!!!!!!!!!!ask_order_amoun: {order.amount}')
                 ask_order = order
                 break
     elif order.order_type == "Ask" and order.status == "Open":
         ask_order = order      
         for order in orders:
-            print(f'!!!!!!!!!!!!!!!!ask_order: {ask_order}')
-            print(f'!!!!!!!!!!!!!!!!order: {order}')
-            print(f'!!!!!!!!!!!!!!!!order.order_type: {order.order_type}')
-            print(f'!!!!!!!!!!!!!!!!ask_order.order_type: {ask_order.order_type}')
-            print(f'!!!!!!!!!!!!!!!!order.amount: {order.amount}')
-            print(f'!!!!!!!!!!!!!!!!ask_order.amount: {ask_order.amount}')
-            print(f'!!!!!!!!!!!!!!!!order.user.id: {order.user.id}')
-            print(f'!!!!!!!!!!!!!!!!ask_order.user.id: {ask_order.user.id}')
-            print(f'!!!!!!!!!!!!!!!!NEXT')
             if order.order_type == "Bid" and (order.amount == ask_order.amount) and order.user.id != ask_order.user.id:
-                print(f'!!!!!!!!!!!!!!!!bid_order_type: {order.order_type}')
-                print(f'!!!!!!!!!!!!!!!!bid_order_user: {order.user}')
-                print(f'!!!!!!!!!!!!!!!!bid_order_amoun: {order.amount}')
                 bid_order = order
                 break
+    
     #We need an else here to render error page
-    print(f'!!!!!!!!!!!!!!!!ask_order: {ask_order}')
-    print(f'!!!!!!!!!!!!!!!!bid_order: {bid_order}')
     if ask_order and bid_order:
         transaction = Transaction.objects.create_transaction(bid_order.id, ask_order.id)
         if order.order_type == "Ask": #other wallet bid/buy for eth+
             #btc balance for other wallet was already adjusted down
-            print(f'!!!!!!!!!!!!!!!!wallet: {wallet}')
-            print(f'!!!!!!!!!!!!!!!!wallet eth_balance: {wallet.eth_balance}')
-            print(f'!!!!!!!!!!!!!!!!wallet btc: {wallet.btc_balance}')
-            print(f'!!!!!!!!!!!!!!!!other wallet: {other_wallet}')
-            print(f'!!!!!!!!!!!!!!!!other wallet eth: {other_wallet.eth_balance}')
-            print(f'!!!!!!!!!!!!!!!!other wallet btc: {other_wallet.btc_balance}')
             wallet.btc_balance = wallet.btc_balance + order.amount
             wallet.save()
             other_wallet.eth_balance = other_wallet.eth_balance + order.amount
             other_wallet.save()
-            print(f'!!!!!!!!!!!!!!!!wallet: {wallet}')
-            print(f'!!!!!!!!!!!!!!!!wallet eth_balance: {wallet.eth_balance}')
-            print(f'!!!!!!!!!!!!!!!!wallet btc: {wallet.btc_balance}')
-            print(f'!!!!!!!!!!!!!!!!other wallet: {other_wallet}')
-            print(f'!!!!!!!!!!!!!!!!other wallet eth: {other_wallet.eth_balance}')
-            print(f'!!!!!!!!!!!!!!!!other wallet btc: {other_wallet.btc_balance}')
         if order.order_type == "Bid": #other wallet ask/sell for eth -
-            print(f'!!!!!!!!!!!!!!!!wallet: {wallet}')
-            print(f'!!!!!!!!!!!!!!!!wallet eth_balance: {wallet.eth_balance}')
-            print(f'!!!!!!!!!!!!!!!!wallet btc: {wallet.btc_balance}')
-            print(f'!!!!!!!!!!!!!!!!other wallet: {other_wallet}')
-            print(f'!!!!!!!!!!!!!!!!other wallet eth: {other_wallet.eth_balance}')
-            print(f'!!!!!!!!!!!!!!!!other wallet btc: {other_wallet.btc_balance}')
             wallet.eth_balance = wallet.eth_balance + order.amount
             wallet.save()
             other_wallet.btc_balance = other_wallet.eth_balance + order.amount
             other_wallet.save()
-            print(f'!!!!!!!!!!!!!!!!wallet: {wallet}')
-            print(f'!!!!!!!!!!!!!!!!wallet eth_balance: {wallet.eth_balance}')
-            print(f'!!!!!!!!!!!!!!!!wallet btc: {wallet.btc_balance}')
-            print(f'!!!!!!!!!!!!!!!!other wallet: {other_wallet}')
-            print(f'!!!!!!!!!!!!!!!!other wallet eth: {other_wallet.eth_balance}')
-            print(f'!!!!!!!!!!!!!!!!other wallet btc: {other_wallet.btc_balance}')
-        print(f'!!!!!!!!!!!!!!!! order.order_type: {order.order_type}')
-        print(f'!!!!!!!!!!!!!!!! order.amount: {order.amount}')
-        print(f'!!!!!!!!!!!!!!!! order.user: {order.user}')
-        print(f'!!!!!!!!!!!!!!!! other_wallet.user: {other_wallet.user}')
-        print(f'!!!!!!!!!!!!!!!! other_wallet: {other_wallet}')
-        print(f'!!!!!!!!!!!!!!!! wallet: {wallet}')
-        print(f'!!!!!!!!!!!!!!!! request.user: {request.user}')
         
         return render(
             request, 
@@ -148,20 +84,6 @@ class OrderList(ListView):
 class OrderDetail(LoginRequiredMixin, DetailView):
     model = Order
     
-
-# class OrderCreate(LoginRequiredMixin,CreateView):
-#     model = Order
-#     fields = ['amount', 'order_type', 'coin_type']
-    
-#     def check_balances(self)
-
-
-#     def form_valid(self, form):
-#         # Assign the logged in user (self.request.user)
-#         form.instance.user = self.request.user
-#         # Instance methods are invoked by prefacing the 
-#         #method name with 'super()'
-#         return super().form_valid(form)
 
 @login_required
 def order_create(request):
