@@ -18,17 +18,17 @@ from decimal import Decimal
 def home(request):
     return render (request,'home.html')
 
+@login_required
 def account(request):
-    user= request.user
-    user_id=user.id
-    return user_details(request, user_id)
-<<<<<<< HEAD
+    # user= request.user
+    # user_id=user.id
+    # return user_details(request, user_id)
+    user_id = request.user.id
+    return user_details(request)
     
 def login(request):
     return render(request,'login_page.html')
     
-=======
->>>>>>> 4d8558ad1f0102a789e877df5ccecba8f2a655f2
 
 def order_execute(request, pk):
     print(f'!!!!!!!!!!!!!!!! order pk: {pk}')
