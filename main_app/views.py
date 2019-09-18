@@ -23,6 +23,8 @@ def account(request):
     user_id=user.id
     return user_details(request, user_id)
     
+def login(request):
+    return render(request,'login.html')
     
 
 def order_execute(request, pk):
