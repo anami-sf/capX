@@ -26,23 +26,47 @@ def account(request):
     
 
 def order_execute(request, pk):
+    user_id = request.user.id
     order = Order.objects.get(id=pk)
     orders = Order.objects.all()
+    wallet = Wallet.objects.get(user = user_id)
+    
+    other_wallet = None
+
     if order.order_type == "Bid":
         bid_order = order
         for first_order in orders:
-            if first_order.order_type == "Ask" and (first_order.amount == order.amount):
+            other_wallet = Wallet.objects.get(user = first_order.user)
+            if first_order.order_type == "Ask" and (first_order.amount == order.amount) and first_order.user != bid_order.user:
                 ask_order = first_order
                 break
     else:
         ask_order = order      
         for first_order in orders:
-            if first_order.order_type == "Bid" and (first_order.amount == order.amount):
+            other_wallet = Wallet.objects.get(user = first_order.user)
+            ask_match_user_id = first_order.user
+            if first_order.order_type == "Bid" and (first_order.amount == order.amount)  and first_order.user != ask_order.user:
                 bid_order = first_order
                 break
     if ask_order and bid_order:
-        # create_transaction(request, bid_order, ask_order)
+        print(f'!!!!!!!!!!!!!!!!{wallet}')
+        print(f'!!!!!!!!!!!!!!!!{user_id}')
+        print(f'!!!!!!!!!!!!!!!!{request.user.id}')
+        print(f'!!!!!!!!!!!!!!!!{order}')
+        print(f'!!!!!!!!!!!!!!!!other wallet: {other_wallet}')
         transaction = Transaction.objects.create_transaction(bid_order.id, ask_order.id)
+        if order.order_type == "Bid": 
+            wallet.eth_balance = wallet.eth_balance + order.amount
+            wallet.save()
+            other_wallet.eth_balance = other_wallet.eth_balance - order.amount
+            other_wallet.save()
+        if order.order_type == "Ask": 
+            wallet.btc_balance = wallet.btc_balance + order.amount
+            wallet.save()
+            other_wallet.btc_balance = other_wallet.btc_balance - order.amount
+            other_wallet.save()
+
+
         return render(
             request, 
             'transactions/transaction.html/', 
@@ -86,18 +110,19 @@ def order_create(request):
     print(f'>>>>{wallet}>>>')
     if request.method == "POST":
         form = OrderForm(request.POST)
-        order_amount = request.POST['amount']
-        # order_order_type = request.POST['order_type']
-        # order_coin = request.POST[]
-        # if wallet.eth_balance - order_amount < 0:
-        #     #  or wallet.btc_balance - order_amount  < 
-        #     return redirect('orders')
-        # else:
+        order_amount = Decimal(request.POST['amount'])
+        order_order_type = request.POST['order_type']
+        order_coin = request.POST['coin_type']
+        if wallet.eth_balance - order_amount < 0 and order_order_type =='Ask' and order_coin =='ETH' or wallet.btc_balance - order_amount < 0 and order_order_type =='Bid' and order_coin =='ETH':
+            return redirect('/orders/create/')
         if form.is_valid():
             order = form.save(commit=False)
             order.user = request.user
             print(f'>>>>>{order.user}')  
-            wallet.eth_balance = (wallet.eth_balance - Decimal(order_amount))
+            if order_order_type =='Ask' and order_coin =='ETH':
+                wallet.eth_balance = (wallet.eth_balance - order_amount)
+            elif order_order_type =='Bid' and order_coin =='ETH':
+                wallet.btc_balance = (wallet.btc_balance - order.amount)
             order.save()
             wallet.save()
             return redirect('order_detail', pk=order.pk)

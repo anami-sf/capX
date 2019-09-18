@@ -92,7 +92,7 @@ class Order(models.Model):
         default = 'Open'
     )
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    transaction = models.ForeignKey(Transaction, on_delete=models.CASCADE, null=True)
+    transaction = models.ForeignKey(Transaction, on_delete=models.CASCADE, blank=True, null=True)
 
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
