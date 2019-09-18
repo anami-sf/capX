@@ -1,6 +1,7 @@
 {% extends 'base.html'%}
 {% block content %}
 
+{% if user.is_authenticated %}
 <h1>Welcome, {{user.username}}</h1>
 <h3>BALANCES</h3>
 
@@ -11,7 +12,11 @@
 <hr>
 {% for order in open_orders %}
        <p>Order ID: {{order.id}}</p>
-       <p>Amount: {{order.amount}}</p>            
+       <p>Amount: {{order.amount}}</p>
+       <div>
+            <a href="{% url 'order_update' order.id%}" >Edit</a>
+            <a href="{% url 'order_delete' order.id%}">Delete</a>
+    </div>            
 {%endfor%}
 <hr>
 <h3>Filled Orders</h3>
@@ -19,7 +24,12 @@
        <p>Order ID: {{order.id}}</p>
        <p>Amount: {{order.amount}}</p>    
        <p>Transaction ID:{{order.transaction}}</p> 
-{%endfor%}
+{% endfor %}
+<!-- {% else %}
+
+<a href="../accounts/login/"><p> Please log in first to trade</p></a> -->
+{% endif %}
+
 
 
 

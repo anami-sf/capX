@@ -1,0 +1,1 @@
+web: gunicorn capx_app.wsgi
