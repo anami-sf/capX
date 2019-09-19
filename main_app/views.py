@@ -180,12 +180,16 @@ def order_create(request):
 
 @login_required
 def order_delete(request, order_id):
+    user_id = request.user.id
     order = Order.objects.get(id=order_id)
     wallet = Wallet.objects.get(user = request.user)
-    if order.order_type == 'Bid':
+    if order.order_type == 'Bid' and order.user.id == user_id:
         wallet.btc_balance = (wallet.btc_balance + order.amount)
-    if order.order_type == 'Ask':
+    elif order.order_type == 'Ask' and order.user.id == user_id:
         wallet.eth_balance = (wallet.eth_balance + order.amount)
+    else:
+        return redirect('/orders')
+        # render or redirect to proper error message/route
     wallet.save()
     order.delete()
     order.save()
@@ -221,7 +225,6 @@ def order_update(request,order_id):
         if form.is_valid():
             order = form.save(commit=False)
             order.user = request.user
-
             
             print(f'>>>>>ORDER _id{order_id}')  
             print(f'>>>>>ORDER .id{order}')  
