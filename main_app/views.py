@@ -107,7 +107,7 @@ def order_create(request):
                 wallet.btc_balance = (wallet.btc_balance - order.amount)
             order.save()
             wallet.save()
-            return redirect('order_detail', pk=order.pk)
+            return redirect('order_detail', order_id=order.id)
     else:
          form = OrderForm()
     return render(request, 'main_app/order_form.html', {'form':form})
@@ -115,7 +115,7 @@ def order_create(request):
 @login_required
 def order_delete(request, order_id):
     user_id = request.user.id
-    order = Order.objects.get(id=order_id)
+    order = Order.objects.filter(id=order_id)
     wallet = Wallet.objects.get(user = request.user)
     if order.order_type == 'Bid' and order.user.id == user_id:
         wallet.btc_balance = (wallet.btc_balance + order.amount)
@@ -165,7 +165,7 @@ def order_update(request,order_id):
             print(f'>>>>>ORDER .id{order.id}')  
             print(f'>>>>>ORDER _AMOUNT{order_amount}')  
             print(f'>>>>>ORDER.AMOUNT{order.amount}')  
-            if order_order_type =='Ask' and order_coin =='ETH':
+            if order_order_type =='Ask' and order_coin =='ETH': 
                 wallet.eth_balance = (wallet.eth_balance + before_order_amount)
                 print(f'>>>>>>WALLET ETH BALANCE:{wallet.eth_balance} <<<<')
                 wallet.eth_balance = (wallet.eth_balance - order_amount)
