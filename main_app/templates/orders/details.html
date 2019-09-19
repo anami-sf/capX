@@ -1,0 +1,21 @@
+{% extends 'base.html'%}
+{% block content %} 
+
+Detail PAGE
+<hr>
+
+<p>Order ID: {{order.id}}</p>
+<p>Order Type: {{order.order_type}}</p>
+<p>Coin: {{order.coin_type}}</p>
+<p>Amount: ${{order.amount}}</p>
+<p>User: {{order.user}}</p>
+
+
+<div>
+        <a href="{% url 'order_update' order.id%}"> [ Edit ]</a>
+        <a href="{% url 'order_delete' order.id%}"> [ Delete ] </a>
+        <a href="{% url 'order_execute' order.id%}"> [ Execute ] </a>
+</div>
+
+
+{% endblock %}

@@ -11,12 +11,15 @@
 <h3>Open Orders</h3>
 <hr>
 {% for order in open_orders %}
+
        <p>Order ID: {{order.id}}</p>
        <p>Amount: {{order.amount}}</p>
+       <p>Order's User: {{order.user}}</p>
        <div>
             <a href="{% url 'order_update' order.id%}" >Edit</a>
             <a href="{% url 'order_delete' order.id%}">Delete</a>
     </div>            
+    
 {%endfor%}
 <hr>
 <h3>Filled Orders</h3>
@@ -31,7 +34,5 @@
 {% endif %}
 
 </div>
-
-
 
 {% endblock %}
