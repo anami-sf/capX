@@ -206,7 +206,7 @@ def order_delete(request, order_id):
 def order_update(request,order_id):
     order= Order.objects.get(id = order_id)
     wallet = Wallet.objects.get(user = request.user.id)
-    before_order_id = order
+    before_order_id = order.id
     before_order_amount = order.amount
     print(f'>>>> BEFORE order ID{before_order_id}>>>')
     print(f'>>>> BEFORE order submission{order.amount}>>>')
@@ -223,11 +223,12 @@ def order_update(request,order_id):
         if wallet.eth_balance - order_amount < 0 and order_order_type =='Ask' and order_coin =='ETH' or wallet.btc_balance - order_amount < 0 and order_order_type =='Bid' and order_coin =='ETH':
             return redirect('/orders/create/')
         if form.is_valid():
+            print(f'>>>>>ORDER .id{order.id}')  
             order = form.save(commit=False)
             order.user = request.user
-            
+            order.id = before_order_id
             print(f'>>>>>ORDER _id{order_id}')  
-            print(f'>>>>>ORDER .id{order}')  
+            print(f'>>>>>ORDER .id{order.id}')  
             print(f'>>>>>ORDER _AMOUNT{order_amount}')  
             print(f'>>>>>ORDER.AMOUNT{order.amount}')  
             if order_order_type =='Ask' and order_coin =='ETH':
