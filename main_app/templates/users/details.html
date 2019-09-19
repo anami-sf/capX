@@ -1,6 +1,6 @@
 {% extends 'base.html'%}
 {% block content %}
-
+<div class="orderHead">
 {% if user.is_authenticated %}
 <h1>Welcome, {{user.username}}</h1>
 <h3>BALANCES</h3>
@@ -30,7 +30,7 @@
 <a href="../accounts/login/"><p> Please log in first to trade</p></a> -->
 {% endif %}
 
-
+</div>
 
 
 

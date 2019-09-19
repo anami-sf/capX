@@ -1,5 +1,5 @@
 body {
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  font-family: 'Open Sans', sans-serif;
   position: relative;
 
   margin: .05px;
@@ -37,9 +37,12 @@ body {
 
 }
 
+.bg-dark {
+  background-color: #DCDCDC !important;
+}
 
 .jumbotron {
-  background-color: grey;
+
   border-bottom: 6px solid #3EC1D5;
   border-top: 6px solid #3EC1D5; 
 }
@@ -49,10 +52,20 @@ body {
 }
 
 .orderHead{
-  padding-left: 70px;
+  padding-left: 20px;
 }
 
 hr { display: block; height: 1px;
   border: 0; border-top: 1px solid #3EC1D5;
   margin: 1em 0; padding: 0; }
 
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Raleway', sans-serif;
+    margin: 0 0 15px;
+    font-weight: 500;
+  }
+
+#scroll{
+  height: 300px;
+  Overflow: scroll;
+}
