@@ -1,6 +1,6 @@
 {% extends 'base.html'%}
 {% block content %} 
-
+<div class="orderHead">
 Detail PAGE
 <hr>
 
@@ -16,6 +16,6 @@ Detail PAGE
         <a href="{% url 'order_delete' order.id%}"> [ Delete ] </a>
         <a href="{% url 'order_execute' order.id%}"> [ Execute ] </a>
 </div>
-
+</div>
 
 {% endblock %}

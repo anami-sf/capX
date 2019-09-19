@@ -102,7 +102,7 @@ def order_create(request):
             order.user = request.user
             print(f'>>>>>{order.user}')  
             if order_order_type =='Ask' and order_coin =='ETH':
-                wallet.eth_balance = (wallet.eth_balance - order_amount)
+                wallet.eth_balance = (wallet.eth_balance - order.amount)
             elif order_order_type =='Bid' and order_coin =='ETH':
                 wallet.btc_balance = (wallet.btc_balance - order.amount)
             order.save()
@@ -112,14 +112,77 @@ def order_create(request):
          form = OrderForm()
     return render(request, 'main_app/order_form.html', {'form':form})
 
-class OrderDelete(LoginRequiredMixin,DeleteView):
-    model = Order
-    success_url = '/orders/'
+@login_required
+def order_delete(request, order_id):
+    user_id = request.user.id
+    order = Order.objects.get(id=order_id)
+    wallet = Wallet.objects.get(user = request.user)
+    if order.order_type == 'Bid' and order.user.id == user_id:
+        wallet.btc_balance = (wallet.btc_balance + order.amount)
+    elif order.order_type == 'Ask' and order.user.id == user_id:
+        wallet.eth_balance = (wallet.eth_balance + order.amount)
+    else:
+        return redirect('/orders')
+        # render or redirect to proper error message/route
+    wallet.save()
+    order.delete()
+    order.save()
+    return redirect('/orders')
+   
+    
 
 
-class OrderUpdate(LoginRequiredMixin,UpdateView):
-    model = Order
-    fields = ['amount', 'order_type', 'coin_type']
+    
+    
+
+
+@login_required
+def order_update(request,order_id):
+    order= Order.objects.get(id = order_id)
+    wallet = Wallet.objects.get(user = request.user.id)
+    before_order_id = order
+    before_order_amount = order.amount
+    print(f'>>>> BEFORE order ID{before_order_id}>>>')
+    print(f'>>>> BEFORE order submission{order.amount}>>>')
+    print(f'>>>>{wallet}>>>')
+
+
+    if request.method == "POST":
+        form = OrderForm(request.POST)
+        print(f'>>>>>POST {request.POST}')  
+        order_amount = Decimal(request.POST['amount'])
+        print(f'>>>>>ORDER_amount{order_amount}')  
+        order_order_type = request.POST['order_type']
+        order_coin = request.POST['coin_type']
+        if wallet.eth_balance - order_amount < 0 and order_order_type =='Ask' and order_coin =='ETH' or wallet.btc_balance - order_amount < 0 and order_order_type =='Bid' and order_coin =='ETH':
+            return redirect('/orders/create/')
+        if form.is_valid():
+            order = form.save(commit=False)
+            order.user = request.user
+            
+            print(f'>>>>>ORDER _id{order_id}')  
+            print(f'>>>>>ORDER .id{order}')  
+            print(f'>>>>>ORDER _AMOUNT{order_amount}')  
+            print(f'>>>>>ORDER.AMOUNT{order.amount}')  
+            if order_order_type =='Ask' and order_coin =='ETH':
+                wallet.eth_balance = (wallet.eth_balance + before_order_amount)
+                print(f'>>>>>>WALLET ETH BALANCE:{wallet.eth_balance} <<<<')
+                wallet.eth_balance = (wallet.eth_balance - order_amount)
+            if order_order_type =='Bid' and order_coin =='ETH':
+                wallet.btc_balance = (wallet.btc_balance + before_order_amount)
+                print(f'>>>>>>WALLET ETH BALANCE:{before_order_amount} <<<<')
+                wallet.btc_balance = (wallet.btc_balance - order_amount)
+            wallet.save()
+            order.save()
+            return redirect('order_detail', order_id=order.id)
+    else:
+         form = OrderForm()
+    return render(request, 'main_app/order_form.html', {'form':form})
+    
+
+# class OrderUpdate(LoginRequiredMixin,UpdateView):
+#     model = Order
+#     fields = ['amount', 'order_type', 'coin_type']
 
 
 def signup(request):
