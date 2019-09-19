@@ -82,9 +82,9 @@ def order_index(request):
     order_list=Order.objects.all()
     return render(request, 'orders/index.html', {'order_list': order_list})
 
-class OrderDetail(LoginRequiredMixin, DetailView):
-    model = Order
-    
+def order_details(request, order_id):
+    order = Order.objects.get(id = order_id)
+    return render(request, 'orders/details.html', {'order':order})
 
 @login_required
 def order_create(request):
