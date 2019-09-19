@@ -8,10 +8,26 @@
 <div class="container-fluid">
     <div class="row">
       <div class="col-md-4">
-        <div class="order-card">
-          <h2>The problem</h2>
+        <h2>Open Orders</h2>
 
-          {% for order in order_list %}
+        {% for order in order_list %}
+          <div class="order-card scroll">
+            <p>Order ID: {{order.id}}</p>
+            <p>Order Type: {{order.order_type}}</p>
+            <p>Coin: {{order.coin_type}}</p>
+            <p>Amount: ${{order.amount}}</p>
+            <p>User: {{order.user}}</p>
+            <a href="{% url 'order_detail' order.id%}">Fill Order</a>
+            <br>
+            <div>
+              <a href="{% url 'order_update' order.id%}" >Edit</a>
+              <a href="{% url 'order_delete' order.id%}">Delete</a>
+            </div>
+            <hr>
+          </div>
+        {% endfor %}
+
+        {% for order in order_list %}
           <div class="order-card">
             <p>Order ID: {{order.id}}</p>
             <p>Order Type: {{order.order_type}}</p>
@@ -21,72 +37,50 @@
             <a href="{% url 'order_detail' order.id%}">Fill Order</a>
             <br>
             <div>
-                    <a href="{% url 'order_update' order.id%}" >Edit</a>
-                    <a href="{% url 'order_delete' order.id%}">Delete</a>
+              <a href="{% url 'order_update' order.id%}" >Edit</a>
+              <a href="{% url 'order_delete' order.id%}">Delete</a>
             </div>
             <hr>
           </div>
         {% endfor %}
-        </div>
-        <h2>open</h2>
 
-        <div class="row .container-fluid f">
-
-            {% for order in order_list %}
-            <div class="order-card">
-              <p>Order ID: {{order.id}}</p>
-              <p>Order Type: {{order.order_type}}</p>
-              <p>Coin: {{order.coin_type}}</p>
-              <p>Amount: ${{order.amount}}</p>
-              <p>User: {{order.user}}</p>
-              <a href="{% url 'order_detail' order.id%}">Fill Order</a>
-              <br>
-              <div>
-                      <a href="{% url 'order_update' order.id%}" >Edit</a>
-                      <a href="{% url 'order_delete' order.id%}">Delete</a>
-              </div>
-              <hr>
-            </div>
-          {% endfor %}
-
-        </div>
       </div>
 
       <div class="col-md-4">
-        <div class="order-card">
-          <h2>The solution</h2>
-
-       <!--TradingView Widget BEGIN -->
-       <div class="tradingview-widget-container">
-          <div id="tradingview_67b82"></div>
-          <div class="tradingview-widget-copyright"><a href="" rel="noopener" target="_blank"><span class="blue-text">capX Chart</span></a> by capX</div>
-          <script type="text/javascript" src="https://s3.tradingview.com/tv.js"></script> <script type="text/javascript">
-          new TradingView.widget(
-            {
-              "width": 480,
-              "height": 310,
-              "symbol": "COINBASE:BTCUSD",
-              "interval": "240",
-              "timezone": "Etc/UTC",
-              "theme": "Light",
-              "style": "1",
-              "locale": "en",
-              "toolbar_bg": "#f1f3f6",
-              "enable_publishing": false,
-              "withdateranges": true,
-              "allow_symbol_change": true,
-              "details": true,
-              "container_id": "tradingview_67b82"
-              }
-              );
-          </script>
-          </div> 
+          <div class="order-card">
+  
+            <!--TradingView Widget BEGIN -->
+            <div class="tradingview-widget-container">
+              <div id="tradingview_67b82"></div>
+              <div class="tradingview-widget-copyright"><a href="" rel="noopener" target="_blank"><span class="blue-text">capX Chart</span></a> by capX</div>
+              <script type="text/javascript" src="https://s3.tradingview.com/tv.js"></script> <script type="text/javascript">
+                new TradingView.widget(
+                  {
+                    "width": 480,
+                    "height": 310,
+                    "symbol": "COINBASE:BTCUSD",
+                    "interval": "240",
+                    "timezone": "Etc/UTC",
+                    "theme": "Light",
+                    "style": "1",
+                    "locale": "en",
+                    "toolbar_bg": "#f1f3f6",
+                    "enable_publishing": false,
+                    "withdateranges": true,
+                    "allow_symbol_change": true,
+                    "details": true,
+                    "container_id": "tradingview_67b82"
+                  }
+                );
+              </script>
+            </div> 
+          </div>
         </div>
-      </div>
-    
-      <div class="col-md-4">
-        <div class="order-card">
-            <h2>Filled</h2>
+
+
+        <div class="col-md-4">
+          <div class="order-card">
+            <h2>Filled Orders</h2>
             {% for order in order_list %}
               <div class="order-card">
                 <p>Order ID: {{order.id}}</p>
@@ -97,22 +91,23 @@
                 <a href="{% url 'order_detail' order.id%}">Fill Order</a>
                 <br>
                 <div>
-                        <a href="{% url 'order_update' order.id%}" >Edit</a>
-                        <a href="{% url 'order_delete' order.id%}">Delete</a>
+                  <a href="{% url 'order_update' order.id%}" >Edit</a>
+                  <a href="{% url 'order_delete' order.id%}">Delete</a>
                 </div>
                 <hr>
               </div>
             {% endfor %}
-          <div>
-      CryptoRival News Widget BEGIN 
-      <script type="text/javascript" src="https://static.cryptorival.com/js/newswidget.js"></script>
-      <a id="cr-copyright" href="https://cryptorival.com/" target="_blank" rel="nofollow">Powered by CryptoRival</a>
-      <script type="text/javascript">
-      showNews('480', false, '0', 'FF9933', 'FF9933', 'E57300', '777777', '319');
-      </script>
-          </div>    
+            <div>
+              CryptoRival News Widget BEGIN 
+              <script type="text/javascript" src="https://static.cryptorival.com/js/newswidget.js"></script>
+              <a id="cr-copyright" href="https://cryptorival.com/" target="_blank" rel="nofollow">Powered by CryptoRival</a>
+              <script type="text/javascript">
+                showNews('480', false, '0', 'FF9933', 'FF9933', 'E57300', '777777', '319');
+              </script>
+            </div>    
+          </div>
         </div>
-      </div> 
-    </div>
+  </div> 
+</div>
 {% endblock %}
 

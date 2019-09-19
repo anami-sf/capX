@@ -65,7 +65,11 @@ hr { display: block; height: 1px;
     font-weight: 500;
   }
 
-#scroll{
+.scroll{
   height: 300px;
-  Overflow: scroll;
+  overflow: scroll;
+}
+
+ul {
+  list-style: none
 }
