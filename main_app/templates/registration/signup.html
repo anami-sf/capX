@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% block content %} 
+<div class="orderHead">
 {% if error_message %}
     <p>{{ error_message }}</p>
 {% endif %}
@@ -10,4 +11,5 @@
   <input type="submit" class="btn" value="signup">
   <!-- <input type="hidden" name="next" value="{{ next }}"> -->
 </form>
+</div>
 {% endblock %}
