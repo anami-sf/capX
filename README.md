@@ -2,11 +2,13 @@
 
 <img src="Home_page.jpg" alt="Home_page" title="Home_page" width="200" height="200" />
 
->[capX - Deployed Page](https://capxexchange.herokuapp.com/)
+
 
 ## INTRODUCTION
 
 <img src="Account_page.jpg" alt="Accounts" title="Accounts" width="200" height="200" />
+
+>[capX - Deployed Page](https://capxexchange.herokuapp.com/)
 
 ## TECHNOLOGIES
 
