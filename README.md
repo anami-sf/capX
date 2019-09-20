@@ -1,4 +1,4 @@
-<h1 style="text-align::center;" > capX </h1>
+<h1 style="text-align:center;" > capX </h1>
 
 <img src="Home_page.jpg" alt="Home_page" title="Home_page" width="200" height="200" />
 
@@ -23,7 +23,7 @@
 
 ## TRELLO
 
->[Trello!](https://trello.com/b/yg1hEwqj/capx)
+>[Trello Board](https://trello.com/b/yg1hEwqj/capx)
 
 ## DEPLOYED PAGE
 
