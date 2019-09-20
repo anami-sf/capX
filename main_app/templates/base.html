@@ -13,36 +13,46 @@
     <!-- linked css-->
     <link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap-grid.css' %}"> 
     <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
+    
 
     <!-- javascripts -->
     <script defer src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
     <script defer src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
     <script defer src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+    
+    <link href="https://fonts.googleapis.com/css?family=Squada+One&display=swap" rel="stylesheet">
   </head>
   <body>
   <!-- Navigation -->
-  <nav class="navbar navbar-default navbar-static-top navbar-expand-lg" role="navigation">
-    <div class="container-fluid">
-      <div class="navbar-header">
-        <a class="navbar-brand" href=" {% url 'home' %} ">cap<span class='x'>X</span></a>
+  <!-- <nav class="navbar navbar-default navbar-static-top navbar-expand-lg" role="navigation"> -->
+    <div class="container-fluid-top">
       
-      <!--</div>-->
-      <ul class="nav navbar-nav navbar-right">
-          {% if user.is_authenticated %}
-            <li class="nav-item"><a class="nav-link" href="{% url 'order_index' %}">Open Orders</a></li>
-            <li class="nav-item"><a class="nav-link" href="{% url 'account' %}">Account</a></li>
-            <li class="nav-item"><a class="nav-link" href="{% url 'order_create' %}">Create Order</a></li>
-            <li class="nav-item"><a class="nav-link" href="{% url 'user_detail' %}">My Orders</a></li>
-            <li class="nav-item"><a class="nav-link" href="{% url 'logout' %}"><span class="glyphicon glyphicon-log-in"></span> Log Out</a></li>
+        <div>
+          <a class="navbar-brand" href=" {% url 'home' %} ">cap<span class='x'>X</span></a>
+        </div>
+        <div class='nav-links'>
+          <ul class='nav-list'>
+              {% if user.is_authenticated %}
+                <li><a href="{% url 'order_index' %}">Open Orders</a></li>
+                <li><a href="{% url 'account' %}">Account</a></li>
+                <li><a href="{% url 'order_create' %}">Create Order</a></li>
+                <li><a href="{% url 'user_detail' %}">My Orders</a></li>
+                <li><a href="{% url 'logout' %}"><span class="glyphicon glyphicon-log-in"></span> Log Out</a></li>
+          </ul>
           {% else %}
-            <li class="nav-item"><a class="nav-link" href="{% url 'order_index' %}">All Orders</a></li>
-            <li class="nav-item"><a class="nav-link" href="{% url 'signup' %}"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
-            <li class="nav-item"><a class="nav-link" href="{% url 'login' %}"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
-          {% endif %}
-      </ul>
-    </div>
+            <ul class='nav-list-login'>
+                <li><a href="{% url 'order_index' %}">All Orders</a></li>
+                <li><a href="{% url 'signup' %}"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
+                <li><a href="{% url 'login' %}"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+            </ul>
+              {% endif %}
+          
+        </div>
+   
   </div>
-  </nav>
+  <!-- </nav> -->
+  <div>
   <div class="widgetTicker">
     <div style="width: 100%; height:62px; background-color: #1D2330; overflow:hidden; box-sizing: border-box; text-align: right; line-height:14px; block-size:62px; font-size: 12px; box-sizing:content-box; font-feature-settings: normal; text-size-adjust: 100%; box-shadow: inset 0 -20px 0 0 #262B38;padding:1px;padding: 0px; margin: 0px;">
       <div style="height:40px;"><iframe src="https://widget.coinlib.io/widget?type=horizontal_v2&theme=dark&pref_coin_id=1505&invert_hover=" width="100%" height="36" scrolling="auto" marginwidth="0" marginheight="0" frameborder="0" border="0" style="border:0;margin:0;padding:0;"></iframe></div>

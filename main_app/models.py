@@ -1,5 +1,6 @@
 from django.db import models
 from django.urls import reverse
+from django.core.validators import MinValueValidator, MaxValueValidator
 from django.contrib.auth.models import User
 
 
@@ -66,7 +67,9 @@ class Transaction(models.Model):
 class Order(models.Model):
     amount= models.DecimalField(
         max_digits=30,
-        decimal_places = 8
+        decimal_places = 8,
+        validators =[MinValueValidator(0)]
+
     )
     order_type= models.CharField(
         max_length = 3,
@@ -76,6 +79,7 @@ class Order(models.Model):
     coin_type= models.CharField(
         max_length = 3,
         choices = ORDER_COIN_CHOICES,
+        default = 'ETH'
        
     )
 
