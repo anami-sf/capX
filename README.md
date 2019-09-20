@@ -1,4 +1,4 @@
-<h1 style="text-align:center; width:100%;" > capX </h1>
+<div style="text-align:center; width:100%;" ><h1 style="text-align:center; width:100%;" > capX </h1></div>
 
 <img src="Home_page.jpg" alt="Home_page" title="Home_page" width="200" height="200" />
 
