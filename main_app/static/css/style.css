@@ -4,7 +4,7 @@ body {
   margin: .05px;
   background-color:black;
   font-family: 'Squada One', cursive;
-  color:rgb(188, 191, 225)
+  color:rgb(188, 191, 225);
 }
 
 div.home-container{
@@ -12,15 +12,18 @@ div.home-container{
   flex-direction:row;
   justify-content:space-evenly;
   margin:0 3em;
-  padding: 0 50px;
+  padding:0 50px;
 }
+
 div.col-md-4{
   padding:0 6em;
-  margin-top:-1em;
+  margin-top:-2em;
 }
+
 div.container-fluid-top {
   display:flex;
   flex-direction:row;
+  justify-content: space-evenly;
 }
 
 
@@ -33,28 +36,22 @@ ul.nav-list{
   
 }
 
-
 ul.nav-list a{
   color:white;
   margin-top:1em;
   padding:1vw;
 }
 ul.nav-list a:hover{
-  /* background-color:grey; */
+  cursor:pointer;
   border-radius:20px;
   color:rgb(0,196,217);
-  
   text-decoration:none;
-  
 }
-ul.nav-list:hover{
-  color:white;
-  cursor:pointer;
-}
+
 
 ul.nav-list-login{
   display:flex;
-  flex-direction: row;
+  flex-direction:row;
   justify-content:space-evenly;
   margin-left:20vw;
 }
@@ -76,29 +73,28 @@ ul.nav-list-login{
   font-size:30px;
   color: whitesmoke;
 }
-
-
-
 #order-container {
   padding: 0;
   margin: 0;
 
 }
 
-/* .bg-dark {
-  background-color: #DCDCDC !important;
-} */
 
 p.banner-head-p{
   font-size:30px;
   font-weight:20px;
-  color:rgb(188, 191, 225)
+  color:rgb(188, 191, 225);
 }
 
 p.lead{
   color:white;
   font-size:30px;
   margin-left:1em;
+}
+p.lead-middle{
+  color:white;
+  font-size:31px;
+  margin-left:2em;
 }
 
 .jumbotron {

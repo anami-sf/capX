@@ -145,7 +145,6 @@ def order_update(request,order_id):
             order.id = before_order_id
             if order_order_type =='Ask' and order.coin_type =='ETH': 
                 wallet.eth_balance = (wallet.eth_balance + before_order_amount)
-                
                 wallet.eth_balance = (wallet.eth_balance - order_amount)
             if order_order_type =='Bid' and order.coin_type =='ETH':
                 wallet.btc_balance = (wallet.btc_balance + before_order_amount)
