@@ -94,16 +94,18 @@ def order_create(request):
         form = OrderForm(request.POST)
         order_amount = Decimal(request.POST['amount'])
         order_order_type = request.POST['order_type']
-        order_coin = request.POST['coin_type']
+        # order_coin = request.POST['coin_type']
+        print(f'{request.POST}')
+        # order_coin = 'ETH'
         if wallet.eth_balance - order_amount < 0 and order_order_type =='Ask' and order_coin =='ETH' or wallet.btc_balance - order_amount < 0 and order_order_type =='Bid' and order_coin =='ETH':
             return redirect('/orders/create/')
         if form.is_valid():
             order = form.save(commit=False)
             order.user = request.user
             print(f'>>>>>{order.user}')  
-            if order_order_type =='Ask' and order_coin =='ETH':
+            if order_order_type =='Ask' and order.coin_type =='ETH':
                 wallet.eth_balance = (wallet.eth_balance - order.amount)
-            elif order_order_type =='Bid' and order_coin =='ETH':
+            elif order_order_type =='Bid' and order.coin_type =='ETH':
                 wallet.btc_balance = (wallet.btc_balance - order.amount)
             order.save()
             wallet.save()
@@ -115,7 +117,7 @@ def order_create(request):
 @login_required
 def order_delete(request, order_id):
     user_id = request.user.id
-    order = Order.objects.filter(id=order_id)
+    order = Order.objects.get(id=order_id)
     wallet = Wallet.objects.get(user = request.user)
     if order.order_type == 'Bid' and order.user.id == user_id:
         wallet.btc_balance = (wallet.btc_balance + order.amount)
@@ -126,8 +128,8 @@ def order_delete(request, order_id):
         # render or redirect to proper error message/route
     wallet.save()
     order.delete()
-    order.save()
-    return redirect('/orders')
+    print(f'>>>>>{order}')
+    return redirect('/users/account')
    
     
 
@@ -153,8 +155,8 @@ def order_update(request,order_id):
         order_amount = Decimal(request.POST['amount'])
         print(f'>>>>>ORDER_amount{order_amount}')  
         order_order_type = request.POST['order_type']
-        order_coin = request.POST['coin_type']
-        if wallet.eth_balance - order_amount < 0 and order_order_type =='Ask' and order_coin =='ETH' or wallet.btc_balance - order_amount < 0 and order_order_type =='Bid' and order_coin =='ETH':
+        # order_coin = request.POST['coin_type']
+        if wallet.eth_balance - order_amount < 0 and order_order_type =='Ask' and order.coin_type =='ETH' or wallet.btc_balance - order_amount < 0 and order_order_type =='Bid' and order_coin =='ETH':
             return redirect('/orders/create/')
         if form.is_valid():
             print(f'>>>>>ORDER .id{order.id}')  
@@ -165,11 +167,11 @@ def order_update(request,order_id):
             print(f'>>>>>ORDER .id{order.id}')  
             print(f'>>>>>ORDER _AMOUNT{order_amount}')  
             print(f'>>>>>ORDER.AMOUNT{order.amount}')  
-            if order_order_type =='Ask' and order_coin =='ETH': 
+            if order_order_type =='Ask' and order.coin_type =='ETH': 
                 wallet.eth_balance = (wallet.eth_balance + before_order_amount)
                 print(f'>>>>>>WALLET ETH BALANCE:{wallet.eth_balance} <<<<')
                 wallet.eth_balance = (wallet.eth_balance - order_amount)
-            if order_order_type =='Bid' and order_coin =='ETH':
+            if order_order_type =='Bid' and order.coin_type =='ETH':
                 wallet.btc_balance = (wallet.btc_balance + before_order_amount)
                 print(f'>>>>>>WALLET ETH BALANCE:{before_order_amount} <<<<')
                 wallet.btc_balance = (wallet.btc_balance - order_amount)

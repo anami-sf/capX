@@ -79,6 +79,7 @@ class Order(models.Model):
     coin_type= models.CharField(
         max_length = 3,
         choices = ORDER_COIN_CHOICES,
+        default = 'ETH'
        
     )
 
