@@ -93,7 +93,7 @@ def order_create(request):
     if request.method == "POST":
         form = OrderForm(request.POST)
         order_amount = Decimal(request.POST['amount'])
-        order_order_type = request.POST['order_type']
+        order_order_type = request.POST['order_type']  ####### Take the user's input
         order_coin = request.POST['coin_type']
         if wallet.eth_balance - order_amount < 0 and order_order_type =='Ask' and order_coin =='ETH' or wallet.btc_balance - order_amount < 0 and order_order_type =='Bid' and order_coin =='ETH':
             return redirect('/orders/create/')
